@@ -1,0 +1,9 @@
+# see https://cmake.org/cmake/help/latest/module/CMakePackageConfigHelpers.html
+
+@PACKAGE_INIT@
+
+set_and_check(INVERSION_LIST_INCLUDE_DIRS "${PACKAGE_PREFIX_DIR}/include")
+set_and_check(INVERSION_LIST_LIB_DIRS "${PACKAGE_PREFIX_DIR}/lib")
+set(INVERSION_LIST_LIBRARIES inversion-list)
+
+check_required_components(INVERSION_LIST)
