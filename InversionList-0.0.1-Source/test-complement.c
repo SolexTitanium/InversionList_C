@@ -18,12 +18,12 @@ int main(void) {
     assert(complement->capacity == 20);
     assert(complement->support == 12);
     assert(complement->size == 6);
-    assert(complement->couples[0] == 4);
-    assert(complement->couples[1] == 5);
-    assert(complement->couples[2] == 6);
-    assert(complement->couples[3] == 7);
-    assert(complement->couples[4] == 10);
-    assert(complement->couples[5] == 20);
+    assert(complement->couples.uint8[0] == 4);
+    assert(complement->couples.uint8[1] == 5);
+    assert(complement->couples.uint8[2] == 6);
+    assert(complement->couples.uint8[3] == 7);
+    assert(complement->couples.uint8[4] == 10);
+    assert(complement->couples.uint8[5] == 20);
     inversion_list_destroy(complement);
   }
   {
@@ -34,14 +34,14 @@ int main(void) {
     assert(complement->capacity == 20);
     assert(complement->support == 13);
     assert(complement->size == 8);
-    assert(complement->couples[0] == 0);
-    assert(complement->couples[1] == 1);
-    assert(complement->couples[2] == 4);
-    assert(complement->couples[3] == 5);
-    assert(complement->couples[4] == 6);
-    assert(complement->couples[5] == 7);
-    assert(complement->couples[6] == 10);
-    assert(complement->couples[7] == 20);
+    assert(complement->couples.uint8[0] == 0);
+    assert(complement->couples.uint8[1] == 1);
+    assert(complement->couples.uint8[2] == 4);
+    assert(complement->couples.uint8[3] == 5);
+    assert(complement->couples.uint8[4] == 6);
+    assert(complement->couples.uint8[5] == 7);
+    assert(complement->couples.uint8[6] == 10);
+    assert(complement->couples.uint8[7] == 20);
     inversion_list_destroy(complement);
   }
   {
@@ -52,14 +52,14 @@ int main(void) {
     assert(complement->capacity == 20);
     assert(complement->support == 12);
     assert(complement->size == 8);
-    assert(complement->couples[0] == 0);
-    assert(complement->couples[1] == 1);
-    assert(complement->couples[2] == 4);
-    assert(complement->couples[3] == 5);
-    assert(complement->couples[4] == 6);
-    assert(complement->couples[5] == 7);
-    assert(complement->couples[6] == 10);
-    assert(complement->couples[7] == 19);
+    assert(complement->couples.uint8[0] == 0);
+    assert(complement->couples.uint8[1] == 1);
+    assert(complement->couples.uint8[2] == 4);
+    assert(complement->couples.uint8[3] == 5);
+    assert(complement->couples.uint8[4] == 6);
+    assert(complement->couples.uint8[5] == 7);
+    assert(complement->couples.uint8[6] == 10);
+    assert(complement->couples.uint8[7] == 19);
     inversion_list_destroy(complement);
   }
   {
@@ -70,12 +70,12 @@ int main(void) {
     assert(complement->capacity == 20);
     assert(complement->support == 11);
     assert(complement->size == 6);
-    assert(complement->couples[0] == 4);
-    assert(complement->couples[1] == 5);
-    assert(complement->couples[2] == 6);
-    assert(complement->couples[3] == 7);
-    assert(complement->couples[4] == 10);
-    assert(complement->couples[5] == 19);
+    assert(complement->couples.uint8[0] == 4);
+    assert(complement->couples.uint8[1] == 5);
+    assert(complement->couples.uint8[2] == 6);
+    assert(complement->couples.uint8[3] == 7);
+    assert(complement->couples.uint8[4] == 10);
+    assert(complement->couples.uint8[5] == 19);
     inversion_list_destroy(complement);
   }
   inversion_list_finish();

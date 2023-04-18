@@ -17,12 +17,12 @@ int main(void) {
     assert(set->capacity == 20);
     assert(set->support == 8);
     assert(set->size == 6);
-    assert(set->couples[0] == 0);
-    assert(set->couples[1] == 4);
-    assert(set->couples[2] == 5);
-    assert(set->couples[3] == 6);
-    assert(set->couples[4] == 7);
-    assert(set->couples[5] == 10);
+    assert(set->couples.uint8[0] == 0);
+    assert(set->couples.uint8[1] == 4);
+    assert(set->couples.uint8[2] == 5);
+    assert(set->couples.uint8[3] == 6);
+    assert(set->couples.uint8[4] == 7);
+    assert(set->couples.uint8[5] == 10);
     inversion_list_destroy(set);
   }
   inversion_list_finish();
