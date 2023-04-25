@@ -32,6 +32,26 @@ static void _verify(void) {
   assert(_counter == 0);
 }
 
+static bool _is_uint32(unsigned int list_capacity) {
+  return list_capacity > 0xFFFF;
+}
+
+static bool _is_uint16(unsigned int list_capacity) {
+  if (_is_uint32(list_capacity)) {
+    return false;
+  }
+
+  return list_capacity > 0xFF;
+}
+
+static bool _is_uint8(unsigned int list_capacity) {
+  if (_is_uint16(list_capacity)) {
+    return false;
+  }
+
+  return list_capacity <= 0xFF;
+}
+
 bool inversion_list_init(void) {
   static bool first = true;
   if (first) {
@@ -229,8 +249,8 @@ static void _copy_unsigned_int_array_to_uint32_array(size_t count, const unsigne
 InversionList *inversion_list_create(unsigned int capacity, size_t count, const unsigned int *values) {
   assert(_counter > 0);
 
-  bool can_use_8_bits = capacity <= 0xFF;
-  bool can_use_16_bits = capacity <= 0xFFFF;
+  bool can_use_8_bits = _is_uint8(capacity);
+  bool can_use_16_bits = _is_uint16(capacity);
 
   size_t element_size;
   if (can_use_8_bits) {
@@ -365,8 +385,8 @@ static const void *_upper_bound(const void *key, const void *base, size_t nmemb,
 bool inversion_list_member(const InversionList *set, unsigned int value) {
   assert(_counter > 0);
 
-  bool can_use_8_bits = set->capacity <= 0xFF;
-  bool can_use_16_bits = set->capacity <= 0xFFFF;
+  bool can_use_8_bits = _is_uint8(set->capacity);
+  bool can_use_16_bits = _is_uint16(set->capacity);
 
   const void *couples;
   int (*compare)(const void *, const void *);
@@ -397,8 +417,8 @@ bool inversion_list_member(const InversionList *set, unsigned int value) {
 InversionList *inversion_list_clone(const InversionList *set) {
   assert(_counter > 0);
 
-  bool can_use_8_bits = set->capacity <= 0xFF;
-  bool can_use_16_bits = set->capacity <= 0xFFFF;
+  bool can_use_8_bits = _is_uint8(set->capacity);
+  bool can_use_16_bits = _is_uint16(set->capacity);
 
   size_t element_size;
   if (can_use_8_bits) {
@@ -495,8 +515,8 @@ static void _compute_complement_uint32(const InversionList *source,
 InversionList *inversion_list_complement(const InversionList *set) {
   assert(_counter > 0);
 
-  bool can_use_8_bits = set->capacity <= 0xFF;
-  bool can_use_16_bits = set->capacity <= 0xFFFF;
+  bool can_use_8_bits = _is_uint8(set->capacity);
+  bool can_use_16_bits = _is_uint16(set->capacity);
 
   size_t element_size;
   size_t size = set->size;
@@ -648,8 +668,8 @@ const char *inversion_list_to_string(const InversionList *set) {
     return NULL;
   }
 
-  bool can_use_8_bits = set->capacity <= 0xFF;
-  bool can_use_16_bits = set->capacity <= 0xFFFF;
+  bool can_use_8_bits = _is_uint8(set->capacity);
+  bool can_use_16_bits = _is_uint16(set->capacity);
 
   assert(_counter > 0);
 
