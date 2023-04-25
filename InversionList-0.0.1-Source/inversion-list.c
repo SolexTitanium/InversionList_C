@@ -700,4 +700,101 @@ const char *inversion_list_to_string(const InversionList *set) {
 
   return string;
 }
-
+bool inversion_list_equal(const InversionList *set1,const InversionList *set2){
+    if (set1 == NULL || set2 == NULL) {
+        return false;
+    }
+    if (set1 == set2) {
+        return true;
+    }
+    if (set1->support != set2->support) {
+        return false;
+    }
+    bool types[] = {_is_uint8(set1->capacity),_is_uint16(set1->capacity),_is_uint32(set1->capacity),_is_uint8(set2->capacity),_is_uint16(set2->capacity),_is_uint32(set2->capacity)};
+    if (types[0] && types[3]){
+        uint8_t * set1_c = set1->couples.uint8;
+        uint8_t * set2_c = set2->couples.uint8;
+        for (int i = 0; i < set1->size; ++i) {
+            if (*set1_c == *set2_c){
+                set1_c++;
+                set2_c++;
+            } else return false;
+        }
+    }    if (types[0] && types[4]){
+        uint8_t * set1_c = set1->couples.uint8;
+        uint16_t * set2_c = set2->couples.uint16;
+        for (int i = 0; i < set1->size; ++i) {
+            if (*set1_c == *set2_c){
+                set1_c++;
+                set2_c++;
+            } else return false;
+        }
+    }    if (types[0] && types[5]){
+        uint8_t * set1_c = set1->couples.uint8;
+        uint32_t * set2_c = set2->couples.uint32;
+        for (int i = 0; i < set1->size; ++i) {
+            if (*set1_c == *set2_c){
+                set1_c++;
+                set2_c++;
+            } else return false;
+        }
+    }    if (types[1] && types[3]){
+        uint16_t * set1_c = set1->couples.uint16;
+        uint8_t * set2_c = set2->couples.uint8;
+        for (int i = 0; i < set1->size; ++i) {
+            if (*set1_c == *set2_c){
+                set1_c++;
+                set2_c++;
+            } else return false;
+        }
+    }    if (types[1] && types[4]){
+        uint16_t * set1_c = set1->couples.uint16;
+        uint16_t * set2_c = set2->couples.uint16;
+        for (int i = 0; i < set1->size; ++i) {
+            if (*set1_c == *set2_c){
+                set1_c++;
+                set2_c++;
+            } else return false;
+        }
+    }    if (types[1] && types[5]){
+        uint16_t * set1_c = set1->couples.uint16;
+        uint32_t * set2_c = set2->couples.uint32;
+        for (int i = 0; i < set1->size; ++i) {
+            if (*set1_c == *set2_c){
+                set1_c++;
+                set2_c++;
+            } else return false;
+        }
+    }    if (types[2] && types[3]){
+        uint32_t * set1_c = set1->couples.uint32;
+        uint8_t * set2_c = set2->couples.uint8;
+        for (int i = 0; i < set1->size; ++i) {
+            if (*set1_c == *set2_c){
+                set1_c++;
+                set2_c++;
+            } else return false;
+        }
+    }    if (types[2] && types[4]){
+        uint32_t * set1_c = set1->couples.uint32;
+        uint16_t * set2_c = set2->couples.uint16;
+        for (int i = 0; i < set1->size; ++i) {
+            if (*set1_c == *set2_c){
+                set1_c++;
+                set2_c++;
+            } else return false;
+        }
+    }    if (types[2] && types[5]){
+        uint32_t * set1_c = set1->couples.uint32;
+        uint32_t * set2_c = set2->couples.uint32;
+        for (int i = 0; i < set1->size; ++i) {
+            if (*set1_c == *set2_c){
+                set1_c++;
+                set2_c++;
+            } else return false;
+        }
+    }
+    return true;
+}
+bool inversion_list_not_equal(const InversionList *set1,const InversionList *set2){
+    return !inversion_list_equal(set1,set2);
+}
