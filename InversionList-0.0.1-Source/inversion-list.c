@@ -700,7 +700,8 @@ const char *inversion_list_to_string(const InversionList *set) {
 
   return string;
 }
-bool inversion_list_equal(const InversionList *set1,const InversionList *set2){
+
+bool inversion_list_equal(const InversionList *set1, const InversionList *set2){
     if (set1 == NULL || set2 == NULL) {
         return false;
     }
@@ -795,6 +796,7 @@ bool inversion_list_equal(const InversionList *set1,const InversionList *set2){
     }
     return true;
 }
-bool inversion_list_not_equal(const InversionList *set1,const InversionList *set2){
+
+bool inversion_list_not_equal(const InversionList *set1, const InversionList *set2){
     return !inversion_list_equal(set1,set2);
 }

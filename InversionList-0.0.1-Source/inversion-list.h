@@ -100,7 +100,8 @@ extern InversionList *inversion_list_complement(const InversionList *set);
  */
 extern const char *inversion_list_to_string(const InversionList *set);
 
-extern bool inversion_list_equal(const InversionList *set1,const InversionList *set2);
+extern bool inversion_list_equal(const InversionList *set1, const InversionList *set2);
 
-extern bool inversion_list_not_equal(const InversionList *set1,const InversionList *set2);
+extern bool inversion_list_not_equal(const InversionList *set1, const InversionList *set2);
+
 #endif  // INVERSION_LIST_H_
