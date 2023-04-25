@@ -800,3 +800,83 @@ bool inversion_list_equal(const InversionList *set1, const InversionList *set2){
 bool inversion_list_not_equal(const InversionList *set1, const InversionList *set2){
     return !inversion_list_equal(set1,set2);
 }
+
+#define DEFINE_INVERSION_LIST_LESS_EQUAL(type1, type2)\
+static bool inversion_list_less_equal_##type1##_##type2(const InversionList *set1, const InversionList *set2) {\
+  size_t set1_index = 0;\
+  size_t set2_index = 0;\
+\
+  while (set1_index < set1->size && set2_index < set2->size) {\
+    if (set1->couples.type1[set1_index] < set2->couples.type2[set2_index]){\
+      return false;\
+    }\
+\
+    if (set1->couples.type1[set1_index] >= set2->couples.type2[set2_index + 1]) {\
+      set2_index += 2;\
+      continue;\
+    }\
+\
+    if (set1->couples.type1[set1_index + 1] > set2->couples.type2[set2_index + 1]) {\
+      return false;\
+    }\
+\
+    set1_index += 2;\
+  }\
+\
+  return set2_index < set2->size;\
+}
+
+DEFINE_INVERSION_LIST_LESS_EQUAL(uint8, uint8);
+DEFINE_INVERSION_LIST_LESS_EQUAL(uint8, uint16);
+DEFINE_INVERSION_LIST_LESS_EQUAL(uint8, uint32);
+DEFINE_INVERSION_LIST_LESS_EQUAL(uint16, uint8);
+DEFINE_INVERSION_LIST_LESS_EQUAL(uint16, uint16);
+DEFINE_INVERSION_LIST_LESS_EQUAL(uint16, uint32);
+DEFINE_INVERSION_LIST_LESS_EQUAL(uint32, uint8);
+DEFINE_INVERSION_LIST_LESS_EQUAL(uint32, uint16);
+DEFINE_INVERSION_LIST_LESS_EQUAL(uint32, uint32);
+
+bool inversion_list_less_equal(const InversionList *set1, const InversionList *set2) {
+  bool set1_is_uint8 = _is_uint8(set1->capacity);
+  bool set1_is_uint16 = _is_uint16(set1->capacity);
+  bool set2_is_uint8 = _is_uint8(set2->capacity);
+  bool set2_is_uint16 = _is_uint16(set2->capacity);
+
+  if (set2->size == 0) {
+    // If set2 is an empty set, then no set can be a strict subset of set2
+    return false;
+  } else if (set1->size == 0) {
+    // If set1 is an empty set, it is included in any set
+    return true;
+  }
+
+  if (set1_is_uint8) {
+    if (set2_is_uint8) {
+      inversion_list_less_equal_uint8_uint8(set1, set2);
+    } else if (set2_is_uint16) {
+      inversion_list_less_equal_uint8_uint16(set1, set2);
+    } else {
+      inversion_list_less_equal_uint8_uint32(set1, set2);
+    }
+  } else if (set1_is_uint16) {
+    if (set2_is_uint8) {
+      inversion_list_less_equal_uint16_uint8(set1, set2);
+    } else if (set2_is_uint16) {
+      inversion_list_less_equal_uint16_uint16(set1, set2);
+    } else {
+      inversion_list_less_equal_uint16_uint32(set1, set2);
+    }
+  } else {
+    if (set2_is_uint8) {
+      inversion_list_less_equal_uint32_uint8(set1, set2);
+    } else if (set2_is_uint16) {
+      inversion_list_less_equal_uint32_uint16(set1, set2);
+    } else {
+      inversion_list_less_equal_uint32_uint32(set1, set2);
+    }
+  }
+}
+
+bool inversion_list_less(const InversionList *set1, const InversionList *set2) {
+  return inversion_list_less_equal(set1, set2) && inversion_list_not_equal(set1, set2);
+}

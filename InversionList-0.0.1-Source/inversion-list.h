@@ -104,4 +104,8 @@ extern bool inversion_list_equal(const InversionList *set1, const InversionList 
 
 extern bool inversion_list_not_equal(const InversionList *set1, const InversionList *set2);
 
+extern bool inversion_list_less(const InversionList *set1, const InversionList *set2);
+
+extern bool inversion_list_less_equal(const InversionList *set1, const InversionList *set2);
+
 #endif  // INVERSION_LIST_H_
