@@ -802,7 +802,7 @@ bool inversion_list_not_equal(const InversionList *set1, const InversionList *se
 }
 
 #define DEFINE_INVERSION_LIST_LESS_EQUAL(type1, type2)\
-static bool inversion_list_less_equal_##type1##_##type2(const InversionList *set1, const InversionList *set2) {\
+static bool _inversion_list_less_equal_##type1##_##type2(const InversionList *set1, const InversionList *set2) {\
   size_t set1_index = 0;\
   size_t set2_index = 0;\
 \
@@ -852,27 +852,27 @@ bool inversion_list_less_equal(const InversionList *set1, const InversionList *s
 
   if (set1_is_uint8) {
     if (set2_is_uint8) {
-      inversion_list_less_equal_uint8_uint8(set1, set2);
+      _inversion_list_less_equal_uint8_uint8(set1, set2);
     } else if (set2_is_uint16) {
-      inversion_list_less_equal_uint8_uint16(set1, set2);
+      _inversion_list_less_equal_uint8_uint16(set1, set2);
     } else {
-      inversion_list_less_equal_uint8_uint32(set1, set2);
+      _inversion_list_less_equal_uint8_uint32(set1, set2);
     }
   } else if (set1_is_uint16) {
     if (set2_is_uint8) {
-      inversion_list_less_equal_uint16_uint8(set1, set2);
+      _inversion_list_less_equal_uint16_uint8(set1, set2);
     } else if (set2_is_uint16) {
-      inversion_list_less_equal_uint16_uint16(set1, set2);
+      _inversion_list_less_equal_uint16_uint16(set1, set2);
     } else {
-      inversion_list_less_equal_uint16_uint32(set1, set2);
+      _inversion_list_less_equal_uint16_uint32(set1, set2);
     }
   } else {
     if (set2_is_uint8) {
-      inversion_list_less_equal_uint32_uint8(set1, set2);
+      _inversion_list_less_equal_uint32_uint8(set1, set2);
     } else if (set2_is_uint16) {
-      inversion_list_less_equal_uint32_uint16(set1, set2);
+      _inversion_list_less_equal_uint32_uint16(set1, set2);
     } else {
-      inversion_list_less_equal_uint32_uint32(set1, set2);
+      _inversion_list_less_equal_uint32_uint32(set1, set2);
     }
   }
 }
