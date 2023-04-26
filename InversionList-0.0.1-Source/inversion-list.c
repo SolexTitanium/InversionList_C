@@ -377,6 +377,23 @@ DEFINE_COMPUTE_COMPLEMENT(uint8);
 DEFINE_COMPUTE_COMPLEMENT(uint16);
 DEFINE_COMPUTE_COMPLEMENT(uint32);
 
+#define DEFINE_LIST_COMPLEMENT_COMPUTE_SIZES(type)\
+static void _list_complement_compute_sizes_##type(const InversionList *set,\
+                                                 size_t *set_size,\
+                                                 size_t *element_size) {\
+  *element_size = sizeof(type##_t);\
+\
+  if (set->couples.type[0] == 0 && set->couples.type[set->size - 1] == set->capacity) {\
+    *set_size -= 2;\
+  } else if (set->couples.type[0] != 0 && set->couples.type[set->size - 1] != set->capacity) {\
+    *set_size += 2;\
+  }\
+}
+
+DEFINE_LIST_COMPLEMENT_COMPUTE_SIZES(uint8);
+DEFINE_LIST_COMPLEMENT_COMPUTE_SIZES(uint16);
+DEFINE_LIST_COMPLEMENT_COMPUTE_SIZES(uint32);
+
 InversionList *inversion_list_complement(const InversionList *set) {
   assert(_counter > 0);
 
@@ -386,29 +403,11 @@ InversionList *inversion_list_complement(const InversionList *set) {
   size_t element_size;
   size_t size = set->size;
   if (is_using_uint8) {
-    element_size = sizeof(uint8_t);
-
-    if (set->couples.uint8[0] == 0 && set->couples.uint8[set->size - 1] == set->capacity) {
-      size -= 2;
-    } else if (set->couples.uint8[0] != 0 && set->couples.uint8[set->size - 1] != set->capacity) {
-      size += 2;
-    }
+    _list_complement_compute_sizes_uint8(set, &size, &element_size);
   } else if (is_using_uint16) {
-    element_size = sizeof(uint16_t);
-
-    if (set->couples.uint16[0] == 0 && set->couples.uint16[set->size - 1] == set->capacity) {
-      size -= 2;
-    } else if (set->couples.uint16[0] != 0 && set->couples.uint16[set->size - 1] != set->capacity) {
-      size += 2;
-    }
+    _list_complement_compute_sizes_uint16(set, &size, &element_size);
   } else {
-    element_size = sizeof(uint32_t);
-
-    if (set->couples.uint32[0] == 0 && set->couples.uint32[set->size - 1] == set->capacity) {
-      size -= 2;
-    } else if (set->couples.uint32[0] != 0 && set->couples.uint32[set->size - 1] != set->capacity) {
-      size += 2;
-    }
+    _list_complement_compute_sizes_uint32(set, &size, &element_size);
   }
 
   InversionList *complement = malloc(sizeof(InversionList) + size * element_size);
