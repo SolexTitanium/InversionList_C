@@ -157,13 +157,13 @@ DEFINE_COPY_UNSIGNED_INT_ARRAY_TO_TYPE_ARRAY(uint32);
 InversionList *inversion_list_create(unsigned int capacity, size_t count, const unsigned int *values) {
   assert(_counter > 0);
 
-  bool can_use_8_bits = _is_uint8(capacity);
-  bool can_use_16_bits = _is_uint16(capacity);
+  bool can_use_uint8 = _is_uint8(capacity);
+  bool can_use_uint16 = _is_uint16(capacity);
 
   size_t element_size;
-  if (can_use_8_bits) {
+  if (can_use_uint8) {
     element_size = sizeof(uint8_t);
-  } else if (can_use_16_bits) {
+  } else if (can_use_uint16) {
     element_size = sizeof(uint16_t);
   } else {
     element_size = sizeof(uint32_t);
@@ -174,9 +174,9 @@ InversionList *inversion_list_create(unsigned int capacity, size_t count, const 
     return NULL;
   }
 
-  if (can_use_8_bits) {
+  if (can_use_uint8) {
     _copy_unsigned_int_array_to_uint8_array(count, values, (uint8_t *)buffer);
-  } else if (can_use_16_bits) {
+  } else if (can_use_uint16) {
     _copy_unsigned_int_array_to_uint16_array(count, values, (uint16_t *)buffer);
   } else {
     _copy_unsigned_int_array_to_uint32_array(count, values, (uint32_t *)buffer);
@@ -187,9 +187,9 @@ InversionList *inversion_list_create(unsigned int capacity, size_t count, const 
   unsigned int support = 0;
   if (count) {
     int status;
-    if (can_use_8_bits) {
+    if (can_use_uint8) {
       status = _compute_size_and_support_uint8(capacity, count, (uint8_t *)buffer, &size, &support);
-    } else if (can_use_16_bits) {
+    } else if (can_use_uint16) {
       status = _compute_size_and_support_uint16(capacity, count, (uint16_t *)buffer, &size, &support);
     } else {
       status = _compute_size_and_support_uint32(capacity, count, (uint32_t *)buffer, &size, &support);
@@ -211,9 +211,9 @@ InversionList *inversion_list_create(unsigned int capacity, size_t count, const 
     // couples are stored after the InversionList structure
     set->couples.uint8 = (uint8_t *)set + sizeof(InversionList);
     if (size) {
-      if (can_use_8_bits) {
+      if (can_use_uint8) {
         _fill_couples_uint8(count, (uint8_t *)set->couples.uint8, (uint8_t *)buffer);
-      } else if (can_use_16_bits) {
+      } else if (can_use_uint16) {
         _fill_couples_uint16(count, (uint16_t *)set->couples.uint16, (uint16_t *)buffer);
       } else {
         _fill_couples_uint32(count, (uint32_t *)set->couples.uint32, (uint32_t *)buffer);
@@ -293,18 +293,18 @@ static const void *_upper_bound(const void *key, const void *base, size_t nmemb,
 bool inversion_list_member(const InversionList *set, unsigned int value) {
   assert(_counter > 0);
 
-  bool can_use_8_bits = _is_uint8(set->capacity);
-  bool can_use_16_bits = _is_uint16(set->capacity);
+  bool is_using_uint8 = _is_uint8(set->capacity);
+  bool is_using_uint16 = _is_uint16(set->capacity);
 
   const void *couples;
   int (*compare)(const void *, const void *);
   size_t element_size;
 
-  if (can_use_8_bits) {
+  if (is_using_uint8) {
     couples = set->couples.uint8;
     compare = _compare_uint8;
     element_size = sizeof(uint8_t);
-  } else if (can_use_16_bits) {
+  } else if (is_using_uint16) {
     couples = set->couples.uint16;
     compare = _compare_uint16;
     element_size = sizeof(uint16_t);
@@ -325,13 +325,13 @@ bool inversion_list_member(const InversionList *set, unsigned int value) {
 InversionList *inversion_list_clone(const InversionList *set) {
   assert(_counter > 0);
 
-  bool can_use_8_bits = _is_uint8(set->capacity);
-  bool can_use_16_bits = _is_uint16(set->capacity);
+  bool is_using_uint8 = _is_uint8(set->capacity);
+  bool is_using_uint16 = _is_uint16(set->capacity);
 
   size_t element_size;
-  if (can_use_8_bits) {
+  if (is_using_uint8) {
     element_size = sizeof(uint8_t);
-  } else if (can_use_16_bits) {
+  } else if (is_using_uint16) {
     element_size = sizeof(uint16_t);
   } else {
     element_size = sizeof(uint32_t);
@@ -380,12 +380,12 @@ DEFINE_COMPUTE_COMPLEMENT(uint32);
 InversionList *inversion_list_complement(const InversionList *set) {
   assert(_counter > 0);
 
-  bool can_use_8_bits = _is_uint8(set->capacity);
-  bool can_use_16_bits = _is_uint16(set->capacity);
+  bool is_using_uint8 = _is_uint8(set->capacity);
+  bool is_using_uint16 = _is_uint16(set->capacity);
 
   size_t element_size;
   size_t size = set->size;
-  if (can_use_8_bits) {
+  if (is_using_uint8) {
     element_size = sizeof(uint8_t);
 
     if (set->couples.uint8[0] == 0 && set->couples.uint8[set->size - 1] == set->capacity) {
@@ -393,7 +393,7 @@ InversionList *inversion_list_complement(const InversionList *set) {
     } else if (set->couples.uint8[0] != 0 && set->couples.uint8[set->size - 1] != set->capacity) {
       size += 2;
     }
-  } else if (can_use_16_bits) {
+  } else if (is_using_uint16) {
     element_size = sizeof(uint16_t);
 
     if (set->couples.uint16[0] == 0 && set->couples.uint16[set->size - 1] == set->capacity) {
@@ -418,9 +418,9 @@ InversionList *inversion_list_complement(const InversionList *set) {
     complement->support = set->capacity - set->support;
     complement->couples.uint8 = (void *)complement + sizeof(InversionList);
     
-    if (can_use_8_bits) {
+    if (is_using_uint8) {
       _compute_complement_uint8(set, complement, size);
-    } else if (can_use_16_bits) {
+    } else if (is_using_uint16) {
       _compute_complement_uint16(set, complement, size);
     } else {
       _compute_complement_uint32(set, complement, size);
@@ -490,8 +490,8 @@ const char *inversion_list_to_string(const InversionList *set) {
     return NULL;
   }
 
-  bool can_use_8_bits = _is_uint8(set->capacity);
-  bool can_use_16_bits = _is_uint16(set->capacity);
+  bool can_use_uint8 = _is_uint8(set->capacity);
+  bool can_use_uint16 = _is_uint16(set->capacity);
 
   assert(_counter > 0);
 
@@ -503,9 +503,9 @@ const char *inversion_list_to_string(const InversionList *set) {
   bool first = true;
   for (i = 0; i < set->size; i += 2) {
     bool error;
-    if (can_use_8_bits) {
+    if (can_use_uint8) {
       error = _add_uint8_string(set->couples.uint8, i, &first, &string, &length);
-    } else if (can_use_16_bits) {
+    } else if (can_use_uint16) {
       error = _add_uint16_string(set->couples.uint16, i, &first, &string, &length);
     } else {
       error = _add_uint32_string(set->couples.uint32, i, &first, &string, &length);
