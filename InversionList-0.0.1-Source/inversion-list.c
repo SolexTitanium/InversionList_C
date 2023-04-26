@@ -637,10 +637,7 @@ bool inversion_list_less_equal(const InversionList *set1, const InversionList *s
   bool set2_is_uint8 = _is_uint8(set2->capacity);
   bool set2_is_uint16 = _is_uint16(set2->capacity);
 
-  if (set2->size == 0) {
-    // If set2 is an empty set, then no set can be a strict subset of set2
-    return false;
-  } else if (set1->size == 0) {
+  if (set1->size == 0) {
     // If set1 is an empty set, it is included in any set
     return true;
   }
