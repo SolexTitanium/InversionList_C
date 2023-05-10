@@ -672,3 +672,11 @@ bool inversion_list_less_equal(const InversionList *set1, const InversionList *s
 bool inversion_list_less(const InversionList *set1, const InversionList *set2) {
   return inversion_list_less_equal(set1, set2) && inversion_list_not_equal(set1, set2);
 }
+
+bool inversion_list_greater(const InversionList *set1, const InversionList *set2) {
+  return inversion_list_less(set2, set1);
+}
+
+bool inversion_list_greater_equal(const InversionList *set1, const InversionList *set2) {
+  return inversion_list_less_equal(set2, set1);
+}
