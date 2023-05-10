@@ -680,3 +680,76 @@ bool inversion_list_greater(const InversionList *set1, const InversionList *set2
 bool inversion_list_greater_equal(const InversionList *set1, const InversionList *set2) {
   return inversion_list_less_equal(set2, set1);
 }
+
+#define DEFINE_INVERSION_LIST_DISJOINT(type1, type2)\
+static bool _inversion_list_disjoint_##type1##_##type2(const InversionList *set1, const InversionList *set2) {\
+  size_t set1_index = 0;\
+  size_t set2_index = 0;\
+\
+  while (set1_index < set1->size && set2_index < set2->size) {\
+    if (set1->couples.type1[set1_index] == set2->couples.type2[set2_index]) {\
+      return false;\
+    }\
+\
+    if (set1->couples.type1[set1_index] >= set2->couples.type2[set2_index + 1]) {\
+      set2_index += 2;\
+      continue;\
+    }\
+\
+    if (set1->couples.type1[set1_index + 1] == set2->couples.type2[set2_index + 1]) {\
+      return false;\
+    }\
+\
+    set1_index += 2;\
+  }\
+\
+  return true;\
+}
+
+DEFINE_INVERSION_LIST_DISJOINT(uint8, uint8);
+DEFINE_INVERSION_LIST_DISJOINT(uint8, uint16);
+DEFINE_INVERSION_LIST_DISJOINT(uint8, uint32);
+DEFINE_INVERSION_LIST_DISJOINT(uint16, uint8);
+DEFINE_INVERSION_LIST_DISJOINT(uint16, uint16);
+DEFINE_INVERSION_LIST_DISJOINT(uint16, uint32);
+DEFINE_INVERSION_LIST_DISJOINT(uint32, uint8);
+DEFINE_INVERSION_LIST_DISJOINT(uint32, uint16);
+DEFINE_INVERSION_LIST_DISJOINT(uint32, uint32);
+
+bool inversion_list_disjoint(const InversionList *set1, const InversionList *set2) {
+  bool set1_is_uint8 = _is_uint8(set1->capacity);
+  bool set1_is_uint16 = _is_uint16(set1->capacity);
+  bool set2_is_uint8 = _is_uint8(set2->capacity);
+  bool set2_is_uint16 = _is_uint16(set2->capacity);
+
+  if (set1->size == 0) {
+    // If set1 is an empty set, it is included in any set
+    return true;
+  }
+
+  if (set1_is_uint8) {
+    if (set2_is_uint8) {
+      _inversion_list_disjoint_uint8_uint8(set1, set2);
+    } else if (set2_is_uint16) {
+      _inversion_list_disjoint_uint8_uint16(set1, set2);
+    } else {
+      _inversion_list_disjoint_uint8_uint32(set1, set2);
+    }
+  } else if (set1_is_uint16) {
+    if (set2_is_uint8) {
+      _inversion_list_disjoint_uint16_uint8(set1, set2);
+    } else if (set2_is_uint16) {
+      _inversion_list_disjoint_uint16_uint16(set1, set2);
+    } else {
+      _inversion_list_disjoint_uint16_uint32(set1, set2);
+    }
+  } else {
+    if (set2_is_uint8) {
+      _inversion_list_disjoint_uint32_uint8(set1, set2);
+    } else if (set2_is_uint16) {
+      _inversion_list_disjoint_uint32_uint16(set1, set2);
+    } else {
+      _inversion_list_disjoint_uint32_uint32(set1, set2);
+    }
+  }
+}
