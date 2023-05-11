@@ -13,6 +13,7 @@
  */
 typedef struct _InversionList InversionList;
 
+typedef struct _InversionListIterator InversionListIterator;
 /**
  * Initialise the library.
  */
@@ -113,5 +114,17 @@ extern bool inversion_list_greater(const InversionList *set1, const InversionLis
 extern bool inversion_list_greater_equal(const InversionList *set1, const InversionList *set2);
 
 extern bool inversion_list_disjoint(const InversionList *set1, const InversionList *set2);
+
+extern InversionListIterator *inversion_list_iterator_create(const InversionList *set);
+
+extern void inversion_list_iterator_destroy(InversionListIterator *iterator);
+
+extern InversionListIterator *inversion_list_iterator_next(InversionListIterator *iterator);
+
+extern InversionListIterator *inversion_list_iterator_rewind(InversionListIterator *iterator);
+
+extern bool inversion_list_iterator_valid(const InversionListIterator *iterator);
+
+extern unsigned int inversion_list_iterator_get(const InversionListIterator *iterator);
 
 #endif  // INVERSION_LIST_H_
