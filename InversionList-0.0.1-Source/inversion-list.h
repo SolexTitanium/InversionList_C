@@ -127,4 +127,18 @@ extern bool inversion_list_iterator_valid(const InversionListIterator *iterator)
 
 extern unsigned int inversion_list_iterator_get(const InversionListIterator *iterator);
 
+extern InversionListCoupleIterator *inversion_list_couple_iterator_create(const InversionList *set);
+
+extern void inversion_list_couple_iterator_destroy(InversionListCoupleIterator *iterator);
+
+extern InversionListIterator *inversion_list_couple_iterator_next(InversionListCoupleIterator *iterator);
+
+extern InversionListCoupleIterator *inversion_list_couple_iterator_rewind(InversionListCoupleIterator *iterator);
+
+extern bool inversion_list_iterator_couple_valid(const InversionListCoupleIterator *iterator);
+
+extern unsigned int inversion_list_couple_iterator_get_inf(const InversionListCoupleIterator *iterator);
+
+extern unsigned int inversion_list_couple_iterator_get_sup(const InversionListCoupleIterator *iterator);
+
 #endif  // INVERSION_LIST_H_
