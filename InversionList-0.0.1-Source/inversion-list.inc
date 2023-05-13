@@ -14,9 +14,11 @@ struct _InversionList {
     uint32_t *uint32;
   } couples;
 };
-struct _InversionListIterator{
-    const struct _InversionList *  iterated ;
+
+struct _InversionListIterator {
+    const struct _InversionList *iterated ;
     size_t index;
     unsigned int value;
 };
+
 #endif  // INVERSION_LIST_INC_
