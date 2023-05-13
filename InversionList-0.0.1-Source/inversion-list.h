@@ -115,6 +115,8 @@ extern bool inversion_list_greater_equal(const InversionList *set1, const Invers
 
 extern bool inversion_list_disjoint(const InversionList *set1, const InversionList *set2);
 
+extern InversionList *inversion_list_union(const InversionList *set1, const InversionList *set2);
+
 extern InversionListIterator *inversion_list_iterator_create(const InversionList *set);
 
 extern void inversion_list_iterator_destroy(InversionListIterator *iterator);

@@ -9,6 +9,8 @@
 
 #include "./inversion-list.inc"
 
+#define MAX(a, b) ((a > b) ? a : b)
+
 static void *_buffer = NULL;
 static size_t _size = 0;
 
@@ -753,6 +755,162 @@ bool inversion_list_disjoint(const InversionList *set1, const InversionList *set
     }
   }
 }
+
+#define COPY_SET2_COUPLES_TO_NEW_COUPLES(source_type, destination_type)\
+for (size_t index = 0; index != set2->size; index++) {\
+  ((destination_type##_t *)new_couples)[index] = set2->couples.source_type[index];\
+}
+
+// The first argument must have a greater or equal type than the second one
+static void *_concat_couples(const InversionList *set1, const InversionList *set2, size_t *new_couples_element_size) {
+  void *new_couples;
+  size_t new_couples_element_count = set1->size + set2->size;
+
+  // Put set2's couples first then set1's couples in new_couples
+  if (_is_uint32(set1->capacity)) {
+    new_couples = _get_buffer(new_couples_element_count * sizeof(uint32_t));
+    *new_couples_element_size = sizeof(uint32_t);
+
+    if (_is_uint8(set2->capacity)) {
+      COPY_SET2_COUPLES_TO_NEW_COUPLES(uint8, uint32);
+    } else if (_is_uint16(set2->capacity)) {
+      COPY_SET2_COUPLES_TO_NEW_COUPLES(uint16, uint32);
+    } else {
+      memcpy(new_couples, set2->couples.uint32, set2->size * sizeof(uint32_t));
+    }
+
+    memcpy(new_couples + set2->size * sizeof(uint32_t), set1->couples.uint32, set1->size * sizeof(uint32_t));
+  } else if (_is_uint16(set1->capacity)) {
+    new_couples = _get_buffer(new_couples_element_count * sizeof(uint16_t));
+    *new_couples_element_size = sizeof(uint16_t);
+
+    if (_is_uint8(set2->capacity)) {
+      COPY_SET2_COUPLES_TO_NEW_COUPLES(uint8, uint16);
+    } else {
+      memcpy(new_couples, set2->couples.uint16, set2->size * sizeof(uint16_t));
+    }
+
+    memcpy(new_couples + set2->size * sizeof(uint16_t), set1->couples.uint16, set1->size * sizeof(uint16_t));
+  } else {
+    new_couples = _get_buffer(new_couples_element_count * sizeof(uint8_t));
+    *new_couples_element_size = sizeof(uint8_t);
+
+    memcpy(new_couples, set2->couples.uint8, set2->size * sizeof(uint8_t));
+    memcpy(new_couples + set2->size * sizeof(uint8_t), set1->couples.uint8, set1->size * sizeof(uint8_t));
+  }
+
+  return new_couples;
+}
+
+// Sort by the first element of the couple, then by the second one if the first one is equal
+#define DEFINE_COMPARE_COUPLES(type)\
+static int _compare_couples_##type(const void *couple1, const void *couple2) {\
+  if (((type##_t *)couple1)[0] == ((type##_t *)couple2)[0]) {\
+    return (int)((type##_t *)couple1)[1] - ((type##_t *)couple2)[1];\
+  }\
+  return (int)((type##_t *)couple1)[0] - ((type##_t *)couple2)[0];\
+}
+
+DEFINE_COMPARE_COUPLES(uint8);
+DEFINE_COMPARE_COUPLES(uint16);
+DEFINE_COMPARE_COUPLES(uint32);
+
+#define DEFINE_UNION(type)\
+static void _union_##type(type##_t *couples, size_t couple_count, type##_t **final_couples, size_t *final_couples_element_count) {\
+  if (couple_count == 0) {\
+    *final_couples = NULL;\
+    *final_couples_element_count = 0;\
+    return;\
+  }\
+  *final_couples = malloc(sizeof(type##_t) * couple_count * 2);\
+  *final_couples_element_count = 0;\
+\
+  if (couple_count > 0) {\
+    (*final_couples)[0] = couples[0];\
+    (*final_couples)[1] = couples[1];\
+    *final_couples_element_count += 2;\
+  }\
+\
+  size_t final_couples_index = 1;\
+  size_t couples_index = 2;\
+  while (couples_index < (couple_count*2)) {\
+    if (couples[couples_index - 1] >= couples[couples_index]) {\
+      (*final_couples)[final_couples_index] = couples[couples_index + 1];\
+    } else {\
+      (*final_couples)[final_couples_index + 1] = couples[couples_index];\
+      (*final_couples)[final_couples_index + 2] = couples[couples_index + 1];\
+      *final_couples_element_count += 2;\
+      final_couples_index += 2;\
+    }\
+\
+    couples_index += 2;\
+  }\
+}
+
+DEFINE_UNION(uint8);
+DEFINE_UNION(uint16);
+DEFINE_UNION(uint32);
+
+#define DEFINE_COMPUTE_SUPPORT(type)\
+static void _compute_support_##type(InversionList *set) {\
+  set->support = 0;\
+  for (size_t index = 0; index < set->size; index += 2) {\
+    set->support += set->couples.type[index + 1] - set->couples.type[index];\
+  }\
+}
+
+DEFINE_COMPUTE_SUPPORT(uint8);
+DEFINE_COMPUTE_SUPPORT(uint16);
+DEFINE_COMPUTE_SUPPORT(uint32);
+
+#define UNION(type) {\
+  qsort(new_couples, couple_count, couple_size, _compare_couples_##type);\
+  _union_##type(new_couples, couple_count, (type##_t**)&final_couples, &final_couples_element_count);\
+  \
+  union_result = malloc(sizeof(InversionList) + final_couples_element_count * sizeof(type##_t));\
+  union_result->size = final_couples_element_count;\
+  union_result->capacity = MAX(set1->capacity, set2->capacity);\
+  union_result->couples.uint8 = (uint8_t *)union_result + sizeof(InversionList);\
+  \
+  if (final_couples_element_count != 0) {\
+    memcpy(union_result->couples.uint8, final_couples, final_couples_element_count * sizeof(type##_t));\
+  }\
+  \
+  _compute_support_##type(union_result);\
+}
+
+InversionList *inversion_list_union(const InversionList *set1, const InversionList *set2) {
+  InversionList *union_result;
+  void *new_couples;
+  size_t new_couples_element_size;
+
+  // The first argument always has a greater or equal type than the second one
+  // This is to avoid having to handle all the cases in _concat_couples
+  if ((_is_uint32(set2->capacity) && !_is_uint32(set1->capacity)) ||
+      (_is_uint16(set2->capacity) && _is_uint8(set1->capacity))) {
+    new_couples = _concat_couples(set2, set1, &new_couples_element_size);
+  } else {
+    new_couples = _concat_couples(set1, set2, &new_couples_element_size);
+  }
+
+  void *final_couples;
+  size_t final_couples_element_count;
+
+  const size_t couple_count = (set1->size + set2->size) / 2;
+  const size_t couple_size = new_couples_element_size * 2;
+  if (new_couples_element_size == sizeof(uint32_t)) {
+    UNION(uint32);
+  } else if (new_couples_element_size == sizeof(uint16_t)) {
+    UNION(uint16);
+  } else {
+    UNION(uint8);
+  }
+
+  free(final_couples);
+
+  return union_result;
+}
+
 
 InversionListIterator *inversion_list_iterator_create(const InversionList *set){
 
