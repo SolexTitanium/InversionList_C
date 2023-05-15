@@ -758,17 +758,16 @@ bool inversion_list_disjoint(const InversionList *set1, const InversionList *set
 
 #define COPY_SET2_COUPLES_TO_NEW_COUPLES(source_type, destination_type)\
 for (size_t index = 0; index != set2->size; index++) {\
-  ((destination_type##_t *)new_couples)[index] = set2->couples.source_type[index];\
+  ((destination_type##_t *)*new_couples)[index] = set2->couples.source_type[index];\
 }
 
 // The first argument must have a greater or equal type than the second one
-static void *_concat_couples(const InversionList *set1, const InversionList *set2, size_t *new_couples_element_size) {
-  void *new_couples;
+static void _concat_couples(const InversionList *set1, const InversionList *set2, void **new_couples, size_t *new_couples_element_size) {
   size_t new_couples_element_count = set1->size + set2->size;
 
   // Put set2's couples first then set1's couples in new_couples
   if (_is_uint32(set1->capacity)) {
-    new_couples = _get_buffer(new_couples_element_count * sizeof(uint32_t));
+    *new_couples = _get_buffer(new_couples_element_count * sizeof(uint32_t));
     *new_couples_element_size = sizeof(uint32_t);
 
     if (_is_uint8(set2->capacity)) {
@@ -776,30 +775,28 @@ static void *_concat_couples(const InversionList *set1, const InversionList *set
     } else if (_is_uint16(set2->capacity)) {
       COPY_SET2_COUPLES_TO_NEW_COUPLES(uint16, uint32);
     } else {
-      memcpy(new_couples, set2->couples.uint32, set2->size * sizeof(uint32_t));
+      memcpy(*new_couples, set2->couples.uint32, set2->size * sizeof(uint32_t));
     }
 
-    memcpy(new_couples + set2->size * sizeof(uint32_t), set1->couples.uint32, set1->size * sizeof(uint32_t));
+    memcpy(*new_couples + set2->size * sizeof(uint32_t), set1->couples.uint32, set1->size * sizeof(uint32_t));
   } else if (_is_uint16(set1->capacity)) {
-    new_couples = _get_buffer(new_couples_element_count * sizeof(uint16_t));
+    *new_couples = _get_buffer(new_couples_element_count * sizeof(uint16_t));
     *new_couples_element_size = sizeof(uint16_t);
 
     if (_is_uint8(set2->capacity)) {
       COPY_SET2_COUPLES_TO_NEW_COUPLES(uint8, uint16);
     } else {
-      memcpy(new_couples, set2->couples.uint16, set2->size * sizeof(uint16_t));
+      memcpy(*new_couples, set2->couples.uint16, set2->size * sizeof(uint16_t));
     }
 
-    memcpy(new_couples + set2->size * sizeof(uint16_t), set1->couples.uint16, set1->size * sizeof(uint16_t));
+    memcpy(*new_couples + set2->size * sizeof(uint16_t), set1->couples.uint16, set1->size * sizeof(uint16_t));
   } else {
-    new_couples = _get_buffer(new_couples_element_count * sizeof(uint8_t));
+    *new_couples = _get_buffer(new_couples_element_count * sizeof(uint8_t));
     *new_couples_element_size = sizeof(uint8_t);
 
-    memcpy(new_couples, set2->couples.uint8, set2->size * sizeof(uint8_t));
-    memcpy(new_couples + set2->size * sizeof(uint8_t), set1->couples.uint8, set1->size * sizeof(uint8_t));
+    memcpy(*new_couples, set2->couples.uint8, set2->size * sizeof(uint8_t));
+    memcpy(*new_couples + set2->size * sizeof(uint8_t), set1->couples.uint8, set1->size * sizeof(uint8_t));
   }
-
-  return new_couples;
 }
 
 // Sort by the first element of the couple, then by the second one if the first one is equal
@@ -888,9 +885,9 @@ InversionList *inversion_list_union(const InversionList *set1, const InversionLi
   // This is to avoid having to handle all the cases in _concat_couples
   if ((_is_uint32(set2->capacity) && !_is_uint32(set1->capacity)) ||
       (_is_uint16(set2->capacity) && _is_uint8(set1->capacity))) {
-    new_couples = _concat_couples(set2, set1, &new_couples_element_size);
+    _concat_couples(set2, set1, &new_couples, &new_couples_element_size);
   } else {
-    new_couples = _concat_couples(set1, set2, &new_couples_element_size);
+    _concat_couples(set1, set2, &new_couples, &new_couples_element_size);
   }
 
   void *final_couples;
