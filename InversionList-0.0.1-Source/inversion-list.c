@@ -1079,52 +1079,56 @@ unsigned int inversion_list_iterator_get(const InversionListIterator *iterator) 
   }
     return 0;
 }
-InversionListCoupleIterator *inversion_list_couple_iterator_create(const InversionList *set){
-InversionListCoupleIterator *it = malloc(sizeof (InversionList*) + sizeof (size_t));
-    if (it == NULL){
-      return NULL;
-    }
-    it->index = 0;
-    it->iterated = set;
-    return it;
 
+InversionListCoupleIterator *inversion_list_couple_iterator_create(const InversionList *set) {
+  InversionListCoupleIterator *it = malloc(sizeof (InversionList*) + sizeof (size_t));
+
+  if (it == NULL){
+    return NULL;
+  }
+
+  it->index = 0;
+  it->iterated = set;
+
+  return it;
 }
 
-void inversion_list_couple_iterator_destroy(InversionListCoupleIterator *iterator){
+void inversion_list_couple_iterator_destroy(InversionListCoupleIterator *iterator) {
   free(iterator);
 }
 
-InversionListCoupleIterator *inversion_list_couple_iterator_next(InversionListCoupleIterator *iterator){
+InversionListCoupleIterator *inversion_list_couple_iterator_next(InversionListCoupleIterator *iterator) {
   if (!inversion_list_iterator_couple_valid(iterator)) {
     return iterator;
   }
 
-  if(iterator->index+2 <= iterator->iterated->size) {
+  if (iterator->index + 2 <= iterator->iterated->size) {
     iterator->index += 2;
   }
+
   return iterator;
 }
 
-InversionListCoupleIterator *inversion_list_couple_iterator_rewind(InversionListCoupleIterator *iterator){
-  iterator->index=0;
+InversionListCoupleIterator *inversion_list_couple_iterator_rewind(InversionListCoupleIterator *iterator) {
+  iterator->index = 0;
   return iterator;
 }
 
-bool inversion_list_iterator_couple_valid(const InversionListCoupleIterator *iterator){
-  if (iterator->index < iterator->iterated->size){  
+bool inversion_list_iterator_couple_valid(const InversionListCoupleIterator *iterator) {
+  if (iterator->index < iterator->iterated->size) {  
     return true;
   }
 
   return false;
 }
 
-unsigned int inversion_list_couple_iterator_get_inf(const InversionListCoupleIterator *iterator){
- if(inversion_list_iterator_couple_valid(iterator)){
-    if(_is_uint8(iterator->iterated->capacity)){
+unsigned int inversion_list_couple_iterator_get_inf(const InversionListCoupleIterator *iterator) {
+ if (inversion_list_iterator_couple_valid(iterator)) {
+    if (_is_uint8(iterator->iterated->capacity)) {
       return iterator->iterated->couples.uint8[iterator->index];
-    }else if(_is_uint16(iterator->iterated->capacity)){
+    } else if (_is_uint16(iterator->iterated->capacity)) {
       return iterator->iterated->couples.uint16[iterator->index];
-    }else{
+    } else {
       return iterator->iterated->couples.uint32[iterator->index];
     }
   }  
@@ -1132,17 +1136,16 @@ unsigned int inversion_list_couple_iterator_get_inf(const InversionListCoupleIte
   return 0;
 }
 
-unsigned int inversion_list_couple_iterator_get_sup(const InversionListCoupleIterator *iterator){
-  if(inversion_list_iterator_couple_valid(iterator)){
-    if(_is_uint8(iterator->iterated->capacity)){
-      return iterator->iterated->couples.uint8[iterator->index+1];
-    }else if(_is_uint16(iterator->iterated->capacity)){
-      return iterator->iterated->couples.uint16[iterator->index+1];
-    }else{
-      return iterator->iterated->couples.uint32[iterator->index+1];
+unsigned int inversion_list_couple_iterator_get_sup(const InversionListCoupleIterator *iterator) {
+  if (inversion_list_iterator_couple_valid(iterator)) {
+    if (_is_uint8(iterator->iterated->capacity)) {
+      return iterator->iterated->couples.uint8[iterator->index + 1];
+    } else if (_is_uint16(iterator->iterated->capacity)) {
+      return iterator->iterated->couples.uint16[iterator->index + 1];
+    } else {
+      return iterator->iterated->couples.uint32[iterator->index + 1];
     }
   }
-  
+
   return 0;
-  
 }

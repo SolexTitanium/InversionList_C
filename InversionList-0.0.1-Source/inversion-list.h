@@ -17,7 +17,6 @@ typedef struct _InversionListIterator InversionListIterator;
 
 typedef struct _InversionListCoupleIterator InversionListCoupleIterator;
 
-
 /**
  * Initialise the library.
  */
