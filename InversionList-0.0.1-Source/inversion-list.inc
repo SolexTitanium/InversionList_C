@@ -16,13 +16,13 @@ struct _InversionList {
 };
 
 struct _InversionListIterator {
-    const struct _InversionList *iterated ;
+    const struct _InversionList *list;
     size_t index;
     unsigned int value;
 };
 
 struct _InversionListCoupleIterator {
-    const struct _InversionList *iterated;
+    const struct _InversionList *list;
     size_t index;
 };
 
