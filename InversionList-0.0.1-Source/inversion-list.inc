@@ -20,5 +20,9 @@ struct _InversionListIterator {
     size_t index;
     unsigned int value;
 };
+struct _InversionListCoupleIterator {
+    const struct _InversionList *iterated;
+    size_t index;
+};
 
 #endif  // INVERSION_LIST_INC_
