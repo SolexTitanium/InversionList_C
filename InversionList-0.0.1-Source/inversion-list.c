@@ -876,6 +876,50 @@ DEFINE_COMPUTE_SUPPORT(uint32);
   _compute_support_##type(union_result);\
 }
 
+#define DEFINE_INTERSECTION(type)\
+static void _intersection_##type(type##_t *couples, size_t couple_count, type##_t **final_couples, size_t *final_couples_element_count) {\
+  if (couple_count == 0) {\
+    *final_couples = NULL;\
+    *final_couples_element_count = 0;\
+    return;\
+  }\
+  *final_couples = malloc(sizeof(type##_t) * couple_count * 2);\
+  *final_couples_element_count = 0;\
+\
+  size_t final_couples_index = 0;\
+  size_t couples_index = 2;\
+  while (couples_index < (couple_count*2)) {\
+    if (couples[couples_index - 1] > couples[couples_index]) {\
+      (*final_couples)[final_couples_index] = couples[couples_index];\
+      (*final_couples)[final_couples_index + 1] = couples[couples_index - 1];\
+      final_couples_index += 2;\
+      *final_couples_element_count += 2;\
+    }\
+\
+    couples_index += 2;\
+  }\
+}
+
+DEFINE_INTERSECTION(uint8);
+DEFINE_INTERSECTION(uint16);
+DEFINE_INTERSECTION(uint32);
+
+#define INTERSECTION(type) {\
+  qsort(new_couples, couple_count, couple_size, _compare_couples_##type);\
+  _intersection_##type(new_couples, couple_count, (type##_t**)&final_couples, &final_couples_element_count);\
+  \
+  intersection = malloc(sizeof(InversionList) + final_couples_element_count * sizeof(type##_t));\
+  intersection->size = final_couples_element_count;\
+  intersection->capacity = MAX(set1->capacity, set2->capacity);\
+  intersection->couples.uint8 = (uint8_t *)intersection + sizeof(InversionList);\
+  \
+  if (final_couples_element_count != 0) {\
+    memcpy(intersection->couples.uint8, final_couples, final_couples_element_count * sizeof(type##_t));\
+  }\
+  \
+  _compute_support_##type(intersection);\
+}
+
 InversionList *inversion_list_union(const InversionList *set1, const InversionList *set2) {
   InversionList *union_result;
   void *new_couples;
@@ -907,6 +951,37 @@ InversionList *inversion_list_union(const InversionList *set1, const InversionLi
 
   return union_result;
 }
+
+InversionList *inversion_list_intersection(const InversionList *set1, const InversionList *set2) {
+  InversionList *intersection;
+  void *new_couples;
+  size_t new_couples_element_size;
+
+  // The first argument always has a greater or equal type than the second one
+  // This is to avoid having to handle all the cases in _concat_couples
+  if ((_is_uint32(set2->capacity) && !_is_uint32(set1->capacity)) ||
+      (_is_uint16(set2->capacity) && _is_uint8(set1->capacity))) {
+    _concat_couples(set2, set1, &new_couples, &new_couples_element_size);
+  } else {
+    _concat_couples(set1, set2, &new_couples, &new_couples_element_size);
+  }
+
+  void *final_couples;
+  size_t final_couples_element_count;
+
+  const size_t couple_count = (set1->size + set2->size) / 2;
+  const size_t couple_size = new_couples_element_size * 2;
+  if (new_couples_element_size == sizeof(uint32_t)) {
+    INTERSECTION(uint32);
+  } else if (new_couples_element_size == sizeof(uint16_t)) {
+    INTERSECTION(uint16);
+  } else {
+    INTERSECTION(uint8);
+  }
+
+  free(final_couples);
+
+  return intersection;}
 
 InversionListIterator *inversion_list_iterator_create(const InversionList *set) {
   InversionListIterator *it = malloc(sizeof (InversionList*) + sizeof (size_t) + sizeof (uint32_t));
