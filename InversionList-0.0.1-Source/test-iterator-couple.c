@@ -17,15 +17,15 @@ int main(void) {
         InversionList *set = inversion_list_create(20, sizeof a / sizeof *a, a);
         InversionListCoupleIterator *it = inversion_list_couple_iterator_create(set);
         assert(it!=NULL);
-
-        assert(inversion_list_couple_iterator_next(it)->index == 0);
         assert(inversion_list_couple_iterator_get_inf(it) ==1);
         assert(inversion_list_couple_iterator_get_sup(it) == 4);
         assert(inversion_list_iterator_couple_valid(it));
-        assert(inversion_list_couple_iterator_next(it)->index == 0);
+        assert(inversion_list_couple_iterator_next(it)->index == 2);
         assert(inversion_list_couple_iterator_get_inf(it) == 5);
+        assert(inversion_list_couple_iterator_get_sup(it) == 6);
+        assert(inversion_list_couple_iterator_next(it)->index == 4);
+        assert(inversion_list_couple_iterator_get_inf(it) == 7);
         assert(inversion_list_couple_iterator_get_sup(it) == 10);
-        assert(inversion_list_couple_iterator_next(it)->index == 6);
         inversion_list_couple_iterator_next(it);
         assert(inversion_list_iterator_couple_valid(it)==false);
         inversion_list_couple_iterator_next(it);
