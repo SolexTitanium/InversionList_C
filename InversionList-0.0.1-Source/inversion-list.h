@@ -12,9 +12,13 @@
  * `InversionList` is an opaque structure able to handle sets of unsigned integers.
  */
 typedef struct _InversionList InversionList;
-
+/**
+ * `InversionListIterator` is an structure who iterate each integers in InversionList
+ */
 typedef struct _InversionListIterator InversionListIterator;
-
+/**
+ * `InversionListCoupleIterator` is an structure who iterate each couple in InversionList
+ */
 typedef struct _InversionListCoupleIterator InversionListCoupleIterator;
 
 /**
@@ -103,23 +107,67 @@ extern InversionList *inversion_list_complement(const InversionList *set);
  * @note a `NULL` return may indicate an error which can be retrieved in `errno`
  */
 extern const char *inversion_list_to_string(const InversionList *set);
-
+/**
+ * Check the equality between two InversionList
+ * @param set1 first InversionList
+ * @param set2 second InversionList
+ * @return true if set1 and set2 are equals, false in other cases
+ */
 extern bool inversion_list_equal(const InversionList *set1, const InversionList *set2);
-
+/**
+ * Check the inequality between two InversionList
+ * @param set1 : first InversionList
+ * @param set2 : second InversionList
+ * @return false if set1 and set2 are equals, true in other cases
+ */
 extern bool inversion_list_not_equal(const InversionList *set1, const InversionList *set2);
-
+/**
+ *
+ * @param set1
+ * @param set2
+ * @return
+ */
 extern bool inversion_list_less(const InversionList *set1, const InversionList *set2);
-
+/**
+ *
+ * @param set1
+ * @param set2
+ * @return
+ */
 extern bool inversion_list_less_equal(const InversionList *set1, const InversionList *set2);
-
+/**
+ *
+ * @param set1
+ * @param set2
+ * @return
+ */
 extern bool inversion_list_greater(const InversionList *set1, const InversionList *set2);
-
+/**
+ *
+ * @param set1
+ * @param set2
+ * @return
+ */
 extern bool inversion_list_greater_equal(const InversionList *set1, const InversionList *set2);
-
+/**
+ *
+ * @param set1
+ * @param set2
+ * @return
+ */
 extern bool inversion_list_disjoint(const InversionList *set1, const InversionList *set2);
-
+/**
+ *
+ * @param set1
+ * @param set2
+ * @return
+ */
 extern InversionList *inversion_list_union(const InversionList *set1, const InversionList *set2);
-
+/**
+ *
+ * @param set
+ * @return
+ */
 extern InversionList *inversion_list_intersection(const InversionList *set1, const InversionList *set2);
 
 extern InversionList *inversion_list_difference(const InversionList *set1, const InversionList *set2);
@@ -127,29 +175,74 @@ extern InversionList *inversion_list_difference(const InversionList *set1, const
 extern InversionList *inversion_list_symmetric_difference(const InversionList *set1,const InversionList *set2);
 
 extern InversionListIterator *inversion_list_iterator_create(const InversionList *set);
-
+/**
+ *
+ * @param iterator
+ */
 extern void inversion_list_iterator_destroy(InversionListIterator *iterator);
-
+/**
+ *
+ * @param iterator
+ * @return
+ */
 extern InversionListIterator *inversion_list_iterator_next(InversionListIterator *iterator);
-
+/**
+ *
+ * @param iterator
+ * @return
+ */
 extern InversionListIterator *inversion_list_iterator_rewind(InversionListIterator *iterator);
-
+/**
+ *
+ * @param iterator
+ * @return
+ */
 extern bool inversion_list_iterator_valid(const InversionListIterator *iterator);
-
+/**
+ *
+ * @param iterator
+ * @return
+ */
 extern unsigned int inversion_list_iterator_get(const InversionListIterator *iterator);
-
+/**
+ *
+ * @param set
+ * @return
+ */
 extern InversionListCoupleIterator *inversion_list_couple_iterator_create(const InversionList *set);
-
+/**
+ *
+ * @param iterator
+ */
 extern void inversion_list_couple_iterator_destroy(InversionListCoupleIterator *iterator);
-
+/**
+ *
+ * @param iterator
+ * @return
+ */
 extern InversionListCoupleIterator *inversion_list_couple_iterator_next(InversionListCoupleIterator *iterator);
-
+/**
+ *
+ * @param iterator
+ * @return
+ */
 extern InversionListCoupleIterator *inversion_list_couple_iterator_rewind(InversionListCoupleIterator *iterator);
-
+/**
+ *
+ * @param iterator
+ * @return
+ */
 extern bool inversion_list_iterator_couple_valid(const InversionListCoupleIterator *iterator);
-
+/**
+ *
+ * @param iterator
+ * @return
+ */
 extern unsigned int inversion_list_couple_iterator_get_inf(const InversionListCoupleIterator *iterator);
-
+/**
+ *
+ * @param iterator
+ * @return
+ */
 extern unsigned int inversion_list_couple_iterator_get_sup(const InversionListCoupleIterator *iterator);
-
 #endif  // INVERSION_LIST_H_
