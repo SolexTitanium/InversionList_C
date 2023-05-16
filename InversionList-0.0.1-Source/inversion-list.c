@@ -985,11 +985,20 @@ InversionList *inversion_list_intersection(const InversionList *set1, const Inve
   }
 
 InversionList *inversion_list_difference(const InversionList *set1,const InversionList *set2) {
-  return inversion_list_intersection(set1,inversion_list_complement(set2));
+  InversionList *complement = inversion_list_complement(set2);
+  InversionList *intersection = inversion_list_intersection(set1, complement);
+  inversion_list_destroy(complement);
+  return intersection;
 }
 
 InversionList *inversion_list_symmetric_difference(const InversionList *set1,const InversionList *set2) {
-  return inversion_list_union(inversion_list_difference(set1,set2),inversion_list_difference(set2,set1));
+  InversionList *difference = inversion_list_difference(set2,set1);
+  InversionList *difference2 = inversion_list_difference(set1,set2);
+
+  InversionList *union_set = inversion_list_union(difference2, difference);
+  inversion_list_destroy(difference);
+  inversion_list_destroy(difference2);
+  return union_set;
 }
 
 InversionListIterator *inversion_list_iterator_create(const InversionList *set) {
