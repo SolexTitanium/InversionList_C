@@ -22,7 +22,7 @@ int main(void) {
     InversionList *set_b_uint8 = inversion_list_create(100, sizeof b / sizeof *b, b);
 
     InversionList *difference_set;
-    
+  
     difference_set = inversion_list_difference(set_a_uint32, set_b_uint32);
     assert(difference_set->capacity == 100000);
     assert(difference_set->size = 2);
@@ -31,6 +31,86 @@ int main(void) {
     assert(difference_set->couples.uint32[1] == 3);
     assert(difference_set->couples.uint32[2] == 7);
     assert(difference_set->couples.uint32[3] == 9);
+    inversion_list_destroy(difference_set);
+
+    difference_set = inversion_list_difference(set_a_uint32, set_b_uint16);
+    assert(difference_set->capacity == 100000);
+    assert(difference_set->size = 2);
+    assert(difference_set->support == 4);
+    assert(difference_set->couples.uint32[0] == 1);
+    assert(difference_set->couples.uint32[1] == 3);
+    assert(difference_set->couples.uint32[2] == 7);
+    assert(difference_set->couples.uint32[3] == 9);
+    inversion_list_destroy(difference_set);
+
+    difference_set = inversion_list_difference(set_a_uint32, set_b_uint8);
+    assert(difference_set->capacity == 100000);
+    assert(difference_set->size = 2);
+    assert(difference_set->support == 4);
+    assert(difference_set->couples.uint32[0] == 1);
+    assert(difference_set->couples.uint32[1] == 3);
+    assert(difference_set->couples.uint32[2] == 7);
+    assert(difference_set->couples.uint32[3] == 9);
+    inversion_list_destroy(difference_set);
+
+    difference_set = inversion_list_difference(set_a_uint16, set_b_uint32);
+    assert(difference_set->capacity == 100000);
+    assert(difference_set->size = 2);
+    assert(difference_set->support == 4);
+    assert(difference_set->couples.uint32[0] == 1);
+    assert(difference_set->couples.uint32[1] == 3);
+    assert(difference_set->couples.uint32[2] == 7);
+    assert(difference_set->couples.uint32[3] == 9);
+    inversion_list_destroy(difference_set);
+
+    difference_set = inversion_list_difference(set_a_uint16, set_b_uint16);
+    assert(difference_set->capacity == 1000);
+    assert(difference_set->size = 2);
+    assert(difference_set->support == 4);
+    assert(difference_set->couples.uint16[0] == 1);
+    assert(difference_set->couples.uint16[1] == 3);
+    assert(difference_set->couples.uint16[2] == 7);
+    assert(difference_set->couples.uint16[3] == 9);
+    inversion_list_destroy(difference_set);
+
+    difference_set = inversion_list_difference(set_a_uint16, set_b_uint8);
+    assert(difference_set->capacity == 1000);
+    assert(difference_set->size = 2);
+    assert(difference_set->support == 4);
+    assert(difference_set->couples.uint16[0] == 1);
+    assert(difference_set->couples.uint16[1] == 3);
+    assert(difference_set->couples.uint16[2] == 7);
+    assert(difference_set->couples.uint16[3] == 9);
+    inversion_list_destroy(difference_set);
+
+    difference_set = inversion_list_difference(set_a_uint8, set_b_uint32);
+    assert(difference_set->capacity == 100000);
+    assert(difference_set->size = 2);
+    assert(difference_set->support == 4);
+    assert(difference_set->couples.uint32[0] == 1);
+    assert(difference_set->couples.uint32[1] == 3);
+    assert(difference_set->couples.uint32[2] == 7);
+    assert(difference_set->couples.uint32[3] == 9);
+    inversion_list_destroy(difference_set);
+
+    difference_set = inversion_list_difference(set_a_uint8, set_b_uint16);
+    assert(difference_set->capacity == 1000);
+    assert(difference_set->size = 2);
+    assert(difference_set->support == 4);
+    assert(difference_set->couples.uint16[0] == 1);
+    assert(difference_set->couples.uint16[1] == 3);
+    assert(difference_set->couples.uint16[2] == 7);
+    assert(difference_set->couples.uint16[3] == 9);
+    inversion_list_destroy(difference_set);
+
+    difference_set = inversion_list_difference(set_a_uint8, set_b_uint8);
+    assert(difference_set->capacity == 100);
+    assert(difference_set->size = 2);
+    assert(difference_set->support == 4);
+    assert(difference_set->couples.uint8[0] == 1);
+    assert(difference_set->couples.uint8[1] == 3);
+    assert(difference_set->couples.uint8[2] == 7);
+    assert(difference_set->couples.uint8[3] == 9);
     inversion_list_destroy(difference_set);
 
     inversion_list_destroy(set_a_uint32);
