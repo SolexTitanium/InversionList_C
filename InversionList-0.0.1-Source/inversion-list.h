@@ -255,7 +255,7 @@ extern InversionListCoupleIterator *inversion_list_couple_iterator_rewind(Invers
  * @param iterator
  * @return true if the pair is valid
  */
-extern bool inversion_list_iterator_couple_valid(const InversionListCoupleIterator *iterator);
+extern bool inversion_list_couple_iterator_valid(const InversionListCoupleIterator *iterator);
 /**
  *  Get the value of lower couple
  * @param iterator
