@@ -150,10 +150,10 @@ extern bool inversion_list_greater(const InversionList *set1, const InversionLis
  */
 extern bool inversion_list_greater_equal(const InversionList *set1, const InversionList *set2);
 /**
- *
+ * Check that 2 sets have no elements in common
  * @param set1
  * @param set2
- * @return
+ * @return return true if no element of set 1 and in set 2
  */
 extern bool inversion_list_disjoint(const InversionList *set1, const InversionList *set2);
 /**
@@ -165,14 +165,33 @@ extern bool inversion_list_disjoint(const InversionList *set1, const InversionLi
 extern InversionList *inversion_list_union(const InversionList *set1, const InversionList *set2);
 /**
  *
- * @param set
+ * @param set1
+ * @param set2
  * @return
  */
 extern InversionList *inversion_list_intersection(const InversionList *set1, const InversionList *set2);
 
+/**
+ *
+ * @param set1
+ * @param set2
+ * @return
+ */
 extern InversionList *inversion_list_difference(const InversionList *set1, const InversionList *set2);
 
+/**
+ * Check the set consisting of elements belonging to set1 and set 2 but not belonging to the intersection of set1 and set2
+ * @param set1
+ * @param set2
+ * @return 
+ */
 extern InversionList *inversion_list_symmetric_difference(const InversionList *set1,const InversionList *set2);
+
+/**
+ *
+ * @param set
+ * @return
+ */
 
 extern InversionListIterator *inversion_list_iterator_create(const InversionList *set);
 /**
@@ -205,44 +224,44 @@ extern bool inversion_list_iterator_valid(const InversionListIterator *iterator)
  */
 extern unsigned int inversion_list_iterator_get(const InversionListIterator *iterator);
 /**
- *
+ * Allows to create an InversionListCoupleIterator
  * @param set
- * @return
+ * @return InversionListCoupleIterator
  */
 extern InversionListCoupleIterator *inversion_list_couple_iterator_create(const InversionList *set);
 /**
- *
+ *Allows you to destroy InversionListCoupleIterator
  * @param iterator
  */
 extern void inversion_list_couple_iterator_destroy(InversionListCoupleIterator *iterator);
 /**
- *
+ * Allows to have the terminal of the following couple
  * @param iterator
- * @return
+ * @return the next couple
  */
 extern InversionListCoupleIterator *inversion_list_couple_iterator_next(InversionListCoupleIterator *iterator);
 /**
- *
+ * Lets go back to the beginning
  * @param iterator
- * @return
+ * @return InversionListCoupleIterator
  */
 extern InversionListCoupleIterator *inversion_list_couple_iterator_rewind(InversionListCoupleIterator *iterator);
 /**
- *
+ * Check if the couple is valid
  * @param iterator
- * @return
+ * @return true if the pair is valid
  */
 extern bool inversion_list_iterator_couple_valid(const InversionListCoupleIterator *iterator);
 /**
- *
+ *  Get the value of lower couple
  * @param iterator
- * @return
+ * @return the value of lower couple
  */
 extern unsigned int inversion_list_couple_iterator_get_inf(const InversionListCoupleIterator *iterator);
 /**
- *
+ * Get the value of superior couple
  * @param iterator
- * @return
+ * @return the value of superoir couple
  */
 extern unsigned int inversion_list_couple_iterator_get_sup(const InversionListCoupleIterator *iterator);
 #endif  // INVERSION_LIST_H_
