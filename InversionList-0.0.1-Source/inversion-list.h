@@ -156,20 +156,24 @@ extern bool inversion_list_greater_equal(const InversionList *set1, const Invers
  * @return return true if no element of set 1 and in set 2
  */
 extern bool inversion_list_disjoint(const InversionList *set1, const InversionList *set2);
+
 /**
- *
- * @param set1
- * @param set2
+ * @brief 
+ * 
+ * @param set 
+ * @param ... 
  * @return
  */
-extern InversionList *inversion_list_union(const InversionList *set1, const InversionList *set2);
+extern InversionList *inversion_list_union(const InversionList *set, ...);
+
 /**
- *
- * @param set1
- * @param set2
+ * @brief 
+ * 
+ * @param set 
+ * @param ... 
  * @return
  */
-extern InversionList *inversion_list_intersection(const InversionList *set1, const InversionList *set2);
+extern InversionList *inversion_list_intersection(const InversionList *set, ...);
 
 /**
  *

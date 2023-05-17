@@ -6,10 +6,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "./inversion-list.inc"
 
 #define MAX(a, b) ((a > b) ? a : b)
+#define MIN(a, b) ((a < b) ? a : b)
+
+typedef enum {
+  UINT8,
+  UINT16,
+  UINT32,
+} Type;
 
 static void *_buffer = NULL;
 static size_t _size = 0;
@@ -756,49 +764,6 @@ bool inversion_list_disjoint(const InversionList *set1, const InversionList *set
   }
 }
 
-#define COPY_SET2_COUPLES_TO_NEW_COUPLES(source_type, destination_type)\
-for (size_t index = 0; index != set2->size; index++) {\
-  ((destination_type##_t *)*new_couples)[index] = set2->couples.source_type[index];\
-}
-
-// The first argument must have a greater or equal type than the second one
-static void _concat_couples(const InversionList *set1, const InversionList *set2, void **new_couples, size_t *new_couples_element_size) {
-  size_t new_couples_element_count = set1->size + set2->size;
-
-  // Put set2's couples first then set1's couples in new_couples
-  if (_is_uint32(set1->capacity)) {
-    *new_couples = _get_buffer(new_couples_element_count * sizeof(uint32_t));
-    *new_couples_element_size = sizeof(uint32_t);
-
-    if (_is_uint8(set2->capacity)) {
-      COPY_SET2_COUPLES_TO_NEW_COUPLES(uint8, uint32);
-    } else if (_is_uint16(set2->capacity)) {
-      COPY_SET2_COUPLES_TO_NEW_COUPLES(uint16, uint32);
-    } else {
-      memcpy(*new_couples, set2->couples.uint32, set2->size * sizeof(uint32_t));
-    }
-
-    memcpy(*new_couples + set2->size * sizeof(uint32_t), set1->couples.uint32, set1->size * sizeof(uint32_t));
-  } else if (_is_uint16(set1->capacity)) {
-    *new_couples = _get_buffer(new_couples_element_count * sizeof(uint16_t));
-    *new_couples_element_size = sizeof(uint16_t);
-
-    if (_is_uint8(set2->capacity)) {
-      COPY_SET2_COUPLES_TO_NEW_COUPLES(uint8, uint16);
-    } else {
-      memcpy(*new_couples, set2->couples.uint16, set2->size * sizeof(uint16_t));
-    }
-
-    memcpy(*new_couples + set2->size * sizeof(uint16_t), set1->couples.uint16, set1->size * sizeof(uint16_t));
-  } else {
-    *new_couples = _get_buffer(new_couples_element_count * sizeof(uint8_t));
-    *new_couples_element_size = sizeof(uint8_t);
-
-    memcpy(*new_couples, set2->couples.uint8, set2->size * sizeof(uint8_t));
-    memcpy(*new_couples + set2->size * sizeof(uint8_t), set1->couples.uint8, set1->size * sizeof(uint8_t));
-  }
-}
-
 // Sort by the first element of the couple, then by the second one if the first one is equal
 #define DEFINE_COMPARE_COUPLES(type)\
 static int _compare_couples_##type(const void *couple1, const void *couple2) {\
@@ -832,7 +797,9 @@ static void _union_##type(type##_t *couples, size_t couple_count, type##_t **fin
   size_t couples_index = 2;\
   while (couples_index < (couple_count*2)) {\
     if (couples[couples_index - 1] >= couples[couples_index]) {\
-      (*final_couples)[final_couples_index] = couples[couples_index + 1];\
+      if ((*final_couples)[final_couples_index] < couples[couples_index + 1]) {\
+        (*final_couples)[final_couples_index] = couples[couples_index + 1];\
+      }\
     } else {\
       (*final_couples)[final_couples_index + 1] = couples[couples_index];\
       (*final_couples)[final_couples_index + 2] = couples[couples_index + 1];\
@@ -860,19 +827,20 @@ DEFINE_COMPUTE_SUPPORT(uint8);
 DEFINE_COMPUTE_SUPPORT(uint16);
 DEFINE_COMPUTE_SUPPORT(uint32);
 
-#define UNION(type) {\
-  qsort(new_couples, couple_count, couple_size, _compare_couples_##type);\
-  _union_##type(new_couples, couple_count, (type##_t**)&final_couples, &final_couples_element_count);\
-  \
+#define MAKE_UNION_AND_FILL_STRUCTURE(type) {\
+  size_t element_count = copied_element / 2;\
+  qsort(new_couples, element_count, type_size * 2, _compare_couples_##type);\
+  _union_##type(new_couples, element_count, (type##_t**)&final_couples, &final_couples_element_count);\
+\
   union_result = malloc(sizeof(InversionList) + final_couples_element_count * sizeof(type##_t));\
   union_result->size = final_couples_element_count;\
-  union_result->capacity = MAX(set1->capacity, set2->capacity);\
+  union_result->capacity = max_capacity;\
   union_result->couples.uint8 = (uint8_t *)union_result + sizeof(InversionList);\
-  \
+\
   if (final_couples_element_count != 0) {\
     memcpy(union_result->couples.uint8, final_couples, final_couples_element_count * sizeof(type##_t));\
   }\
-  \
+\
   _compute_support_##type(union_result);\
 }
 
@@ -901,88 +869,313 @@ static void _intersection_##type(type##_t *couples, size_t couple_count, type##_
 }
 
 DEFINE_INTERSECTION(uint8);
-DEFINE_INTERSECTION(uint16);
+// DEFINE_INTERSECTION(uint16);
+static void _intersection_uint16(uint16_t *couples, size_t couple_count, uint16_t **final_couples, size_t *final_couples_element_count) {\
+  if (couple_count == 0) {\
+    *final_couples = NULL;\
+    *final_couples_element_count = 0;\
+    return;\
+  }\
+  *final_couples = malloc(sizeof(uint16_t) * couple_count * 2);\
+  *final_couples_element_count = 0;\
+\
+  size_t final_couples_index = 0;\
+  size_t couples_index = 2;\
+  while (couples_index < (couple_count*2)) {\
+    if (couples[couples_index - 1] > couples[couples_index]) {\
+      (*final_couples)[final_couples_index] = couples[couples_index];\
+      (*final_couples)[final_couples_index + 1] = MIN(couples[couples_index - 1], couples[couples_index + 1]);\
+      final_couples_index += 2;\
+      *final_couples_element_count += 2;\
+    }\
+\
+    couples_index += 2;\
+  }\
+}
 DEFINE_INTERSECTION(uint32);
 
-#define INTERSECTION(type) {\
-  qsort(new_couples, couple_count, couple_size, _compare_couples_##type);\
-  _intersection_##type(new_couples, couple_count, (type##_t**)&final_couples, &final_couples_element_count);\
-  \
-  intersection = malloc(sizeof(InversionList) + final_couples_element_count * sizeof(type##_t));\
-  intersection->size = final_couples_element_count;\
-  intersection->capacity = MAX(set1->capacity, set2->capacity);\
-  intersection->couples.uint8 = (uint8_t *)intersection + sizeof(InversionList);\
-  \
-  if (final_couples_element_count != 0) {\
-    memcpy(intersection->couples.uint8, final_couples, final_couples_element_count * sizeof(type##_t));\
+#define MAKE_INTERSECTION_AND_FILL_STRUCTURE(type) {\
+  size_t element_count = copied_element / 2;\
+  qsort(new_couples, element_count, type_size * 2, _compare_couples_##type);\
+  if (set2 != NULL) {\
+    _intersection_##type(new_couples, element_count, (type##_t**)&final_couples, &final_couples_element_count);\
+  } else {\
+    final_couples_element_count = copied_element;\
   }\
-  \
-  _compute_support_##type(intersection);\
+\
+  intersection_result = malloc(sizeof(InversionList) + final_couples_element_count * sizeof(type##_t));\
+  intersection_result->size = final_couples_element_count;\
+  intersection_result->capacity = _get_max_capacity(set1, set2);\
+  intersection_result->couples.uint8 = (uint8_t *)intersection_result + sizeof(InversionList);\
+\
+  if (final_couples_element_count != 0) {\
+    const void *to_copy;\
+    if (set2 == NULL) {\
+      to_copy = new_couples;\
+    } else {\
+      to_copy = final_couples;\
+    }\
+    memcpy(intersection_result->couples.uint8, to_copy, final_couples_element_count * sizeof(type##_t));\
+  }\
+\
+  _compute_support_##type(intersection_result);\
 }
 
-InversionList *inversion_list_union(const InversionList *set1, const InversionList *set2) {
-  InversionList *union_result;
-  void *new_couples;
-  size_t new_couples_element_size;
+InversionList *inversion_list_union(const InversionList *set, ...) {
+  va_list args;
 
-  // The first argument always has a greater or equal type than the second one
-  // This is to avoid having to handle all the cases in _concat_couples
-  if ((_is_uint32(set2->capacity) && !_is_uint32(set1->capacity)) ||
-      (_is_uint16(set2->capacity) && _is_uint8(set1->capacity))) {
-    _concat_couples(set2, set1, &new_couples, &new_couples_element_size);
-  } else {
-    _concat_couples(set1, set2, &new_couples, &new_couples_element_size);
+  // Search the greatest type, the size needed to store the couples
+  // Also search the maximum capacity
+ 
+  Type type_needed = UINT8;
+  size_t type_size;
+  size_t size_needed = 0;
+  unsigned int max_capacity = 0;
+  const InversionList *arg;
+
+  va_start(args, set);
+  arg = set;
+  while(arg != NULL) {
+    // Get the greatest type needed to store the couples
+    if (_is_uint16(arg->capacity) && type_needed == UINT8) {
+      type_needed = UINT16;
+    } else if (_is_uint32(arg->capacity) && type_needed != UINT32) {
+      type_needed = UINT32;
+    }
+
+    size_needed += arg->size;
+    max_capacity = MAX(max_capacity, arg->capacity);
+
+    arg = va_arg(args, const InversionList*);
   }
+  va_end(args);
+
+  switch (type_needed) {
+  case UINT8:
+    type_size = sizeof(uint8_t);
+    break;
+
+  case UINT16:
+    type_size = sizeof(uint16_t);
+    break;
+  
+  default:
+    type_size = sizeof(uint32_t);
+    break;
+  }
+
+  InversionList *union_result;
+  void *new_couples = NULL;
+
+  // Concatenate the couples
+
+  size_t copied_element = 0;
+  if (size_needed != 0) {
+    new_couples = malloc(size_needed * type_size);
+
+    va_start(args, set);
+    arg = set;
+
+    while (arg != NULL) {
+      size_t i;
+
+      switch (type_size) {
+      case sizeof(uint8_t):
+        memcpy((uint8_t*)new_couples + copied_element, arg->couples.uint8, arg->size * sizeof(uint8_t));
+        break;
+        
+      case sizeof(uint16_t):
+        if (_is_uint8(arg->capacity)) {
+          for (i = 0; i < arg->size; i++) {
+            ((uint16_t *)new_couples)[copied_element + i] = arg->couples.uint8[i];
+          }
+        } else {
+          memcpy((uint16_t *)new_couples + copied_element, arg->couples.uint16, arg->size * sizeof(uint16_t));
+        }
+        break;
+
+      default:
+        if (_is_uint8(arg->capacity)) {
+          for (i = 0; i < arg->size; i++) {
+            ((uint32_t *)new_couples)[copied_element + i] = arg->couples.uint8[i];
+          }
+        } else if (_is_uint16(arg->capacity)) {
+          for (i = 0; i < arg->size; i++) {
+            ((uint32_t *)new_couples)[copied_element + i] = arg->couples.uint16[i];
+          }
+        } else {
+          memcpy((uint32_t *)new_couples + copied_element, arg->couples.uint32, arg->size * sizeof(uint32_t));
+        }
+        break;
+      }
+      copied_element += arg->size;
+      arg = va_arg(args, const InversionList*);
+    }
+
+    va_end(args);
+  }
+
+  // Make the union
 
   void *final_couples;
   size_t final_couples_element_count;
 
-  const size_t couple_count = (set1->size + set2->size) / 2;
-  const size_t couple_size = new_couples_element_size * 2;
-  if (new_couples_element_size == sizeof(uint32_t)) {
-    UNION(uint32);
-  } else if (new_couples_element_size == sizeof(uint16_t)) {
-    UNION(uint16);
+  if (type_size == sizeof(uint32_t)) {
+    MAKE_UNION_AND_FILL_STRUCTURE(uint32);
+  } else if (type_size == sizeof(uint16_t)) {
+    MAKE_UNION_AND_FILL_STRUCTURE(uint16);
   } else {
-    UNION(uint8);
+    MAKE_UNION_AND_FILL_STRUCTURE(uint8);
   }
 
+  free(new_couples);
   free(final_couples);
 
   return union_result;
 }
 
-InversionList *inversion_list_intersection(const InversionList *set1, const InversionList *set2) {
-  InversionList *intersection;
-  void *new_couples;
-  size_t new_couples_element_size;
+static size_t _get_max_type_size(const InversionList *set1, const InversionList *set2) {
+  unsigned set1_capacity = set1 == NULL ? 0 : set1->capacity;
+  unsigned set2_capacity = set2 == NULL ? 0 : set2->capacity;
 
-  // The first argument always has a greater or equal type than the second one
-  // This is to avoid having to handle all the cases in _concat_couples
-  if ((_is_uint32(set2->capacity) && !_is_uint32(set1->capacity)) ||
-      (_is_uint16(set2->capacity) && _is_uint8(set1->capacity))) {
-    _concat_couples(set2, set1, &new_couples, &new_couples_element_size);
+  if (_is_uint32(set1_capacity) || _is_uint32(set2_capacity)) {
+    return sizeof(uint32_t);
+  } else if (_is_uint16(set1_capacity) || _is_uint16(set2_capacity)) {
+    return sizeof(uint16_t);
   } else {
-    _concat_couples(set1, set2, &new_couples, &new_couples_element_size);
+    return sizeof(uint8_t);
+  }
+}
+
+static unsigned int _get_max_capacity(const InversionList *set1, const InversionList *set2) {
+  if (set1 == NULL) {
+    if (set2 == NULL) {
+      return 0;
+    } else {
+      return set2->capacity;
+    }
+  } else {
+    if (set2 == NULL) {
+      return set1->capacity;
+    } else {
+      return MAX(set1->capacity, set2->capacity);
+    }
+  }
+}
+
+static InversionList *_inversion_list_intersection(const InversionList *set1, const InversionList *set2) {
+  InversionList *intersection_result;
+  void *new_couples = NULL;
+
+  size_t set_count = 2;
+
+  size_t size_needed;
+  size_t type_size;
+
+  if (set2 == NULL) {
+    set_count = 1;
+    size_needed = set1->size;
+  } else {
+    size_needed = set1->size + set2->size;
   }
 
-  void *final_couples;
+  type_size = _get_max_type_size(set1, set2);
+
+  // Concatenate the couples
+
+  size_t copied_element = 0;
+  if (size_needed != 0) {
+    new_couples = malloc(size_needed * type_size);
+
+    const InversionList *sets[2] = {set1, set2};
+
+    for (size_t sets_index = 0; sets_index != set_count; sets_index++) {
+      size_t i;
+      const InversionList *current_set = sets[sets_index];
+
+      switch (type_size) {
+      case sizeof(uint8_t):
+        memcpy((uint8_t*)new_couples + copied_element, current_set->couples.uint8, current_set->size * sizeof(uint8_t));
+        break;
+        
+      case sizeof(uint16_t):
+        if (_is_uint8(current_set->capacity)) {
+          for (i = 0; i < current_set->size; i++) {
+            ((uint16_t *)new_couples)[copied_element + i] = current_set->couples.uint8[i];
+          }
+        } else {
+          memcpy((uint16_t *)new_couples + copied_element, current_set->couples.uint16, current_set->size * sizeof(uint16_t));
+        }
+        break;
+
+      default:
+        if (_is_uint8(current_set->capacity)) {
+          for (i = 0; i < current_set->size; i++) {
+            ((uint32_t *)new_couples)[copied_element + i] = current_set->couples.uint8[i];
+          }
+        } else if (_is_uint16(current_set->capacity)) {
+          for (i = 0; i < current_set->size; i++) {
+            ((uint32_t *)new_couples)[copied_element + i] = current_set->couples.uint16[i];
+          }
+        } else {
+          memcpy((uint32_t *)new_couples + copied_element, current_set->couples.uint32, current_set->size * sizeof(uint32_t));
+        }
+        break;
+      }
+      copied_element += current_set->size;
+    }
+  }
+
+  // Make the union
+
+  void *final_couples = NULL;
   size_t final_couples_element_count;
 
-  const size_t couple_count = (set1->size + set2->size) / 2;
-  const size_t couple_size = new_couples_element_size * 2;
-  if (new_couples_element_size == sizeof(uint32_t)) {
-    INTERSECTION(uint32);
-  } else if (new_couples_element_size == sizeof(uint16_t)) {
-    INTERSECTION(uint16);
+  if (type_size == sizeof(uint32_t)) {
+    MAKE_INTERSECTION_AND_FILL_STRUCTURE(uint32);
+  } else if (type_size == sizeof(uint16_t)) {
+    MAKE_INTERSECTION_AND_FILL_STRUCTURE(uint16);
   } else {
-    INTERSECTION(uint8);
+    MAKE_INTERSECTION_AND_FILL_STRUCTURE(uint8);
   }
 
+  free(new_couples);
   free(final_couples);
 
-  return intersection;
+  return intersection_result;
+}
+
+InversionList *inversion_list_intersection(const InversionList *set, ...) {
+  if (set == NULL) {
+    return NULL;
   }
+
+  va_list args;
+  InversionList *result = NULL;
+
+  va_start(args, set);
+
+  const InversionList *set1 = set;
+  const InversionList *set2 = va_arg(args, const InversionList*);
+
+  do {
+    InversionList *tmp = _inversion_list_intersection(set1, set2);
+
+    if (set1 == result) {
+      inversion_list_destroy(result);
+    }
+
+    result = tmp;
+
+    set1 = result;
+    set2 = va_arg(args, const InversionList*);
+  } while (set2 != NULL);
+
+  va_end(args);
+
+  return result;
+}
+
 
 InversionList *inversion_list_difference(const InversionList *set1,const InversionList *set2) {
   InversionList *complement = inversion_list_complement(set2);
