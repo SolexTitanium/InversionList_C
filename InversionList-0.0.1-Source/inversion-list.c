@@ -859,7 +859,7 @@ static void _intersection_##type(type##_t *couples, size_t couple_count, type##_
   while (couples_index < (couple_count*2)) {\
     if (couples[couples_index - 1] > couples[couples_index]) {\
       (*final_couples)[final_couples_index] = couples[couples_index];\
-      (*final_couples)[final_couples_index + 1] = couples[couples_index - 1];\
+      (*final_couples)[final_couples_index + 1] = MIN(couples[couples_index - 1], couples[couples_index + 1]);\
       final_couples_index += 2;\
       *final_couples_element_count += 2;\
     }\
@@ -869,29 +869,7 @@ static void _intersection_##type(type##_t *couples, size_t couple_count, type##_
 }
 
 DEFINE_INTERSECTION(uint8);
-// DEFINE_INTERSECTION(uint16);
-static void _intersection_uint16(uint16_t *couples, size_t couple_count, uint16_t **final_couples, size_t *final_couples_element_count) {\
-  if (couple_count == 0) {\
-    *final_couples = NULL;\
-    *final_couples_element_count = 0;\
-    return;\
-  }\
-  *final_couples = malloc(sizeof(uint16_t) * couple_count * 2);\
-  *final_couples_element_count = 0;\
-\
-  size_t final_couples_index = 0;\
-  size_t couples_index = 2;\
-  while (couples_index < (couple_count*2)) {\
-    if (couples[couples_index - 1] > couples[couples_index]) {\
-      (*final_couples)[final_couples_index] = couples[couples_index];\
-      (*final_couples)[final_couples_index + 1] = MIN(couples[couples_index - 1], couples[couples_index + 1]);\
-      final_couples_index += 2;\
-      *final_couples_element_count += 2;\
-    }\
-\
-    couples_index += 2;\
-  }\
-}
+DEFINE_INTERSECTION(uint16);
 DEFINE_INTERSECTION(uint32);
 
 #define MAKE_INTERSECTION_AND_FILL_STRUCTURE(type) {\

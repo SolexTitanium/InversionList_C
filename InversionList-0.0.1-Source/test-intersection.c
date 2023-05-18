@@ -208,6 +208,26 @@ int main(void) {
     inversion_list_destroy(set_c_uint16);
     inversion_list_destroy(set_c_uint32);
   }
+  {
+    unsigned int a[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    unsigned int b[] = {4, 5, 6, 7};
+
+    InversionList *set_a = inversion_list_create(100, sizeof a / sizeof *a, a);
+    InversionList *set_b = inversion_list_create(100, sizeof b / sizeof *b, b);
+
+    InversionList *intersection_set;
+
+    intersection_set = inversion_list_intersection(set_a, set_b, NULL);
+    assert(intersection_set->capacity == 100);
+    assert(intersection_set->support == 4);
+    assert(intersection_set->size == 2);
+    assert(intersection_set->couples.uint8[0] == 4);
+    assert(intersection_set->couples.uint8[1] == 8);
+    inversion_list_destroy(intersection_set);
+
+    inversion_list_destroy(set_a);
+    inversion_list_destroy(set_b);
+  }
   inversion_list_finish();
   return EXIT_SUCCESS;
 }
