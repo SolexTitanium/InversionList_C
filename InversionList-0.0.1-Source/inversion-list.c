@@ -854,12 +854,15 @@ static void _intersection_##type(type##_t *couples, size_t couple_count, type##_
   *final_couples = malloc(sizeof(type##_t) * couple_count * 2);\
   *final_couples_element_count = 0;\
 \
+  type##_t max = 0;\
+\
   size_t final_couples_index = 0;\
   size_t couples_index = 2;\
   while (couples_index < (couple_count*2)) {\
-    if (couples[couples_index - 1] > couples[couples_index]) {\
+    max = MAX(max, couples[couples_index - 1]);\
+    if (max > couples[couples_index]) {\
       (*final_couples)[final_couples_index] = couples[couples_index];\
-      (*final_couples)[final_couples_index + 1] = MIN(couples[couples_index - 1], couples[couples_index + 1]);\
+      (*final_couples)[final_couples_index + 1] = MIN(max, couples[couples_index + 1]);\
       final_couples_index += 2;\
       *final_couples_element_count += 2;\
     }\
@@ -1155,16 +1158,46 @@ InversionList *inversion_list_intersection(const InversionList *set, ...) {
 }
 
 
-InversionList *inversion_list_difference(const InversionList *set1,const InversionList *set2) {
-  InversionList *complement = inversion_list_complement(set2);
-  InversionList *intersection = inversion_list_intersection(set1, complement, NULL);
-  inversion_list_destroy(complement);
+InversionList *inversion_list_difference(const InversionList *set, ...) {
+  if (set == NULL) {
+    return NULL;
+  }
+
+  va_list args;
+  va_start(args, set);
+
+  const InversionList *set1 = set;
+  const InversionList *set2 = va_arg(args, const InversionList*);
+
+  if (set2 == NULL) {
+    return inversion_list_clone(set1);
+  }
+
+  InversionList *complement;
+  InversionList *intersection = NULL;
+
+  while (set2 != NULL) {
+    complement = inversion_list_complement(set2);
+    InversionList *tmp = inversion_list_intersection(set1, complement, NULL);
+
+    if (intersection != NULL) {
+      inversion_list_destroy(intersection);
+    }
+    intersection = tmp;
+    inversion_list_destroy(complement);
+
+    set1 = intersection;
+    set2 = va_arg(args, const InversionList*);
+  }
+
+  va_end(args);
+
   return intersection;
 }
 
-InversionList *inversion_list_symmetric_difference(const InversionList *set1,const InversionList *set2) {
-  InversionList *difference = inversion_list_difference(set2,set1);
-  InversionList *difference2 = inversion_list_difference(set1,set2);
+InversionList *inversion_list_symmetric_difference(const InversionList *set1, const InversionList *set2) {
+  InversionList *difference = inversion_list_difference(set2, set1, NULL);
+  InversionList *difference2 = inversion_list_difference(set1, set2, NULL);
 
   InversionList *union_set = inversion_list_union(difference2, difference, NULL);
   inversion_list_destroy(difference);

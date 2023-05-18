@@ -181,7 +181,7 @@ extern InversionList *inversion_list_intersection(const InversionList *set, ...)
  * @param set2
  * @return
  */
-extern InversionList *inversion_list_difference(const InversionList *set1, const InversionList *set2);
+extern InversionList *inversion_list_difference(const InversionList *set, ...);
 
 /**
  * Check the set consisting of elements belonging to set1 and set 2 but not belonging to the intersection of set1 and set2
