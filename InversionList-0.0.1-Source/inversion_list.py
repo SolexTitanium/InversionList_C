@@ -1,25 +1,42 @@
-from ctypes import *
+import ctypes
 from typing import *
 
 so_file = "./InversionList-0.0.1-Source/inversion-list.so"
-inversion_functions = CDLL(so_file)
+inversion_functions = ctypes.CDLL(so_file)
+
 
 
 class IntegerSet(AbstractSet[int]):
+    #def structure
+    _fields_ = [
+        ('capacity', ctypes.c_int),
+        ('support', ctypes.c_int),
+        ('size', ctypes.c_size_t),
+        ('couples',ctypes.c_int)
+    ]
     def __init__(
         self,
         intervals: Optional[Iterable[Tuple[int, int]]] = None,
-    ) -> None:...
+    ) -> None:inversion_functions.inversion_list_init()
 
     @classmethod
+    #dans from iterable conversion du paramètres iterable en truc compréhensible par du C 
+    #inversion liste create fonctionne mais renvoie int 
+    #donc à partir de lign 32 erreur car pas d'attribut 
     def from_iterable(
         cls,
-        iterable: Optional[Iterable[int]] = None,
+        iterable: Optional[Iterable[int]] = None
     ) -> "IntegerSet":
-            return inversion_functions.inversion_list_create(iterable)
+            ctypes.c_int_array = ctypes.c_int * len(iterable)
+            A=inversion_functions.inversion_list_create(100000,len(iterable),ctypes.c_int_array(*iterable))
+            self.support=A.inversion_list_support
+            self.capacity=100000
+            self.couples=inversion_functions.inversion_list_couples(A)
+            self.size=inversion_functions.inversion_list_size(A)
 
-    def __repr__(self) -> str:
-        ...
+            return self
+
+    def __repr__(self) -> str:return inversion_functions.inversion_list_to_string(self)
 
     def __hash__(self) -> int:
         ...
@@ -80,4 +97,10 @@ class IntegerSet(AbstractSet[int]):
 
 if __name__=="__main__":
     A=IntegerSet()
+    A.__init__()
+
+    B=[1, 2, 3, 5, 7, 8, 9]
+    A.__init__()
+    A.from_iterable(B)
+    print("A=")
     print(A.__repr__())
