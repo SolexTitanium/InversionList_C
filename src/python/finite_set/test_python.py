@@ -112,6 +112,51 @@ def test_intersection():
     assert(set_b.intersection(set_a) == inversion_list.IntegerSet([(20, 22)]))
     assert(set_a.intersection(set_c, set_b) == inversion_list.IntegerSet([(20, 21)]))
 
+def test_union():
+    a = [1, 2, 3, 7, 8, 9, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+    b = [5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+
+    set_a = inversion_list.IntegerSet.from_iterable(a)
+    set_b = inversion_list.IntegerSet.from_iterable(b)
+
+    assert(set_a.union(set_b) == inversion_list.IntegerSet([(1, 4), (5, 20), (21, 30)]))
+
+    # Test 2
+
+    a = []
+    b = [1]
+    c = [2, 3, 4]
+    d = [1, 2, 3, 7, 8, 20, 21, 22, 23]
+    e = [4, 5, 6, 12, 13]
+
+    set_a = inversion_list.IntegerSet.from_iterable(a)
+    set_b = inversion_list.IntegerSet.from_iterable(b)
+    set_c = inversion_list.IntegerSet.from_iterable(c)
+    set_d = inversion_list.IntegerSet.from_iterable(d)
+    set_e = inversion_list.IntegerSet.from_iterable(e)
+
+    assert(set_a.union(set_a) == inversion_list.IntegerSet())
+    assert(set_a.union(set_b) == inversion_list.IntegerSet([(1, 2)]))
+    assert(set_a.union(set_c) == inversion_list.IntegerSet([(2, 5)]))
+    assert(set_b.union(set_d) == inversion_list.IntegerSet([(1, 4), (7, 9), (20, 24)]))
+    assert(set_d.union(set_e) == inversion_list.IntegerSet([(1, 9), (12, 14), (20, 24)]))
+
+    # Test 3
+
+    a = [5, 6, 7, 8, 9, 10, 11, 12, 20, 21, 22]
+    b = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    c = [15, 16, 7, 8, 23, 24]
+    d = [100, 101, 102, 103, 104, 150, 151, 152, 153, 154, 155]
+
+    set_a = inversion_list.IntegerSet.from_iterable(a)
+    set_b = inversion_list.IntegerSet.from_iterable(b)
+    set_c = inversion_list.IntegerSet.from_iterable(c)
+    set_d = inversion_list.IntegerSet.from_iterable(d)
+
+    assert(set_a.union(set_b, set_c) == inversion_list.IntegerSet([(1, 13), (15, 17), (20, 25)]))
+    assert(set_a.union(set_b, set_c, set_d) == inversion_list.IntegerSet([(1, 13), (15, 17), (20, 25), (100, 105), (150, 156)]))
+
+
 if __name__ == "__main__":
     inversion_list.init_library()
 
@@ -120,5 +165,6 @@ if __name__ == "__main__":
     test_less()
     test_disjoint()
     test_intersection()
+    test_union()
     
     inversion_list.finish_library()

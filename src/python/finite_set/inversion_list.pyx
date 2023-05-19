@@ -210,9 +210,22 @@ cdef class IntegerSet:
 
         return new_set
 
-    def __or__(self, other: "IntegerSet") -> "IntegerSet": pass
+    def __or__(self, other: "IntegerSet") -> "IntegerSet":
+        new_set: IntegerSet = IntegerSet.from_iterable(self)
 
-    def union(self, *others: Iterator[int]) -> "IntegerSet": pass
+        cdef cinversion_list.InversionList *new_structure = cinversion_list.inversion_list_union(new_set.structure, (<IntegerSet>other).structure, NULL)
+        cinversion_list.inversion_list_destroy(new_set.structure)
+        new_set.structure = new_structure
+
+        return new_set
+
+    def union(self, *others: Iterator[int]) -> "IntegerSet":
+        new_set = IntegerSet.from_iterable(self)
+
+        for other in others:
+            new_set = new_set | IntegerSet.from_iterable(other)
+
+        return new_set
 
     def __sub__(self, other: "IntegerSet") -> "IntegerSet": pass
 
