@@ -94,7 +94,7 @@ add_custom_command(
 )
 
 add_custom_target(
-    docs ALL
+    docs
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html
 )
 #make html-coverage command
