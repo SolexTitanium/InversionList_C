@@ -156,6 +156,34 @@ def test_union():
     assert(set_a.union(set_b, set_c) == inversion_list.IntegerSet([(1, 13), (15, 17), (20, 25)]))
     assert(set_a.union(set_b, set_c, set_d) == inversion_list.IntegerSet([(1, 13), (15, 17), (20, 25), (100, 105), (150, 156)]))
 
+def test_difference():
+    a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    b = [4, 5, 6, 7, 8, 20, 21, 22, 23, 24]
+    c = [8, 9, 10, 11, 13, 14, 15, 23, 24]
+    d = [5]
+    e = [21, 22]
+
+    set_a = inversion_list.IntegerSet.from_iterable(a)
+    set_b = inversion_list.IntegerSet.from_iterable(b)
+    set_c = inversion_list.IntegerSet.from_iterable(c)
+    set_d = inversion_list.IntegerSet.from_iterable(d)
+    set_e = inversion_list.IntegerSet.from_iterable(e)
+
+    assert(set_a.difference() == set_a)
+    assert(set_a.difference(set_a, set_b) == inversion_list.IntegerSet())
+    assert(set_a.difference(set_b, set_c) == inversion_list.IntegerSet([(1, 4), (12, 13)]))
+    assert(set_a.difference(set_c, set_b) == inversion_list.IntegerSet([(1, 4), (12, 13)]))
+    assert(set_b.difference(set_c) == inversion_list.IntegerSet([(4, 8), (20, 23)]))
+    # assert(set_b.difference(set_c, set_d, set_e) == inversion_list.IntegerSet([(4, 5), (6, 8), (20, 21)]))
+
+def test_symmetric_difference():
+    a = [1, 2, 7, 8, 10]
+    b = [3, 4, 6, 9, 10]
+
+    set_a = inversion_list.IntegerSet.from_iterable(a)
+    set_b = inversion_list.IntegerSet.from_iterable(b)
+
+    assert(set_a.symmetric_difference(set_b) == inversion_list.IntegerSet([(1, 5), (6, 10)]))
 
 if __name__ == "__main__":
     inversion_list.init_library()
@@ -166,5 +194,7 @@ if __name__ == "__main__":
     test_disjoint()
     test_intersection()
     test_union()
+    test_difference()
+    test_symmetric_difference()
     
     inversion_list.finish_library()

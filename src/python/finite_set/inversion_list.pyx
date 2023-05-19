@@ -110,8 +110,11 @@ cdef class IntegerSet:
             for interval in intervals:
                 for value in range(interval[0], interval[1]):
                     values.append(value)
-            
-            maximum = max(values)
+
+            if len(values) > 0:
+                maximum = max(values)
+            else:
+                maximum = 0
         else:
             maximum = 0
 
@@ -131,11 +134,14 @@ cdef class IntegerSet:
         integer_set = IntegerSet()
         cdef array.array values = array.array('I', [])
 
-        if iterable is not None and len(iterable) > 0:
+        if iterable is not None:
             for value in iterable:
                 values.append(value)
             
-            maximum = max(values)
+            if len(values) > 0:
+                maximum = max(values)
+            else:
+                maximum = 0
         else:
             maximum = 0
         
@@ -227,11 +233,31 @@ cdef class IntegerSet:
 
         return new_set
 
-    def __sub__(self, other: "IntegerSet") -> "IntegerSet": pass
+    def __sub__(self, other: "IntegerSet") -> "IntegerSet":
+        new_set: IntegerSet = IntegerSet.from_iterable(self)
 
-    def difference(self, *others: Iterator[int]) -> "IntegerSet": pass
+        cdef cinversion_list.InversionList *new_structure = cinversion_list.inversion_list_difference(new_set.structure, (<IntegerSet>other).structure, NULL)
+        cinversion_list.inversion_list_destroy(new_set.structure)
+        new_set.structure = new_structure
 
-    def __xor__(self, other: "IntegerSet") -> "IntegerSet": pass
+        return new_set
 
-    def symmetric_difference(self, other: Iterator[int]) -> "IntegerSet": pass
+    def difference(self, *others: Iterator[int]) -> "IntegerSet":
+        new_set = IntegerSet.from_iterable(self)
 
+        for other in others:
+            new_set = new_set - IntegerSet.from_iterable(other)
+
+        return new_set
+
+    def __xor__(self, other: "IntegerSet") -> "IntegerSet":
+        new_set: IntegerSet = IntegerSet.from_iterable(self)
+
+        cdef cinversion_list.InversionList *new_structure = cinversion_list.inversion_list_symmetric_difference(new_set.structure, (<IntegerSet>other).structure)
+        cinversion_list.inversion_list_destroy(new_set.structure)
+        new_set.structure = new_structure
+
+        return new_set
+
+    def symmetric_difference(self, other: Iterator[int]) -> "IntegerSet":
+        return IntegerSet.from_iterable(self) ^ IntegerSet.from_iterable(other)
