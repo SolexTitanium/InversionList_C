@@ -11,6 +11,7 @@ Welcome to Inversion List's documentation!
    :caption: Contents:
 
    api/library_root
+   answers/root
 
 Indices and tables
 ==================
