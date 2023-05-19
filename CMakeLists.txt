@@ -7,6 +7,8 @@ project(InversionList LANGUAGES C VERSION 0.0.1)
 # Voir https://en.wikipedia.org/wiki/Rpath
 # Voir https://en.wikipedia.org/wiki/Environment_variable#$LD_LIBRARY_PATH
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH true)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 
 # See https://cmake.org/cmake/help/latest/policy/CMP0110.html
 if(POLICY CMP0110)
@@ -94,4 +96,15 @@ add_custom_command(
 add_custom_target(
     docs ALL
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html
+)
+#make html-coverage command
+
+add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/coverage-html
+        COMMAND lcov --capture --directory ${CMAKE_CURRENT_BINARY_DIR} --output-file coverage.info
+        COMMAND genhtml coverage.info --output-directory ${CMAKE_CURRENT_BINARY_DIR}/coverage-html
+)
+add_custom_target(
+        html-coverage ALL
+        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/coverage-html
 )
