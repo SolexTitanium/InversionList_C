@@ -13,7 +13,8 @@ if(POLICY CMP0110)
   cmake_policy(SET CMP0110 NEW)
 endif()
 
-add_library(inversion-list SHARED inversion-list.c inversion-list.h inversion-list.inc)
+add_library(inversion-list SHARED src/c/inversion-list.c include/inversion-list.h src/c/inversion-list.inc)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 install(
   TARGETS inversion-list
@@ -59,7 +60,7 @@ if(EFENCE)
   target_link_libraries(inversion-list ${EFENCE})
 endif()
 
-file(GLOB FILES "${CMAKE_CURRENT_SOURCE_DIR}/test-*.c")
+file(GLOB FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/c/test-*.c")
 
 enable_testing()
 
@@ -68,7 +69,7 @@ find_program(VALGRIND valgrind)
 foreach(FILENAME ${FILES})
   get_filename_component(SRC ${FILENAME} NAME)
   get_filename_component(TEST ${FILENAME} NAME_WE)
-  add_executable(${TEST} ${SRC} inversion-list.h inversion-list.inc)
+  add_executable(${TEST} ${FILENAME} ${CMAKE_CURRENT_SOURCE_DIR}/include/inversion-list.h ${CMAKE_CURRENT_SOURCE_DIR}/src/c/inversion-list.inc)
   add_dependencies(${TEST} inversion-list)
   target_link_libraries(${TEST} inversion-list)
   if(VALGRIND)
