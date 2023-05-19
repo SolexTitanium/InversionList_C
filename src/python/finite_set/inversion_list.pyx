@@ -114,11 +114,11 @@ cdef class IntegerSet:
     """IntegerSet is a structure able to handle sets of unsigned integers"""
     cdef cinversion_list.InversionList *structure
     cdef unsigned int size
+
     def __init__(
         self,
         intervals: Optional[Iterable[Tuple[int, int]]] = None,
     ) -> None:
-        """"""
         cdef array.array values = array.array('I', [])
 
         if intervals is not None and len(intervals) > 0:
@@ -139,7 +139,6 @@ cdef class IntegerSet:
             raise MemoryError("Error when creating the inversion list")
     
     def __dealloc__(self):
-        """"""
         cinversion_list.inversion_list_destroy(self.structure)
 
     @classmethod
@@ -174,15 +173,13 @@ cdef class IntegerSet:
         """Return a string representation of self"""
         return cinversion_list.inversion_list_to_string(self.structure).decode()
 
-    def __hash__(self) -> int: 
-        """"""
-        pass
+    def __hash__(self) -> int: pass
 
-    def __contains__(self, item: object) -> bool: 
+    def __contains__(self, item: object) -> bool:
         """Check if item is contains in self """
         pass
 
-    def __len__(self) -> int: 
+    def __len__(self) -> int:
         """Return the number of element in self"""
         return self.size
 
@@ -206,58 +203,35 @@ cdef class IntegerSet:
         return False
 
     def __ne__(self, other: object) -> bool:
-        """Check the inequality between self and other"""
+        """Check if self is strictly included in other"""
         if type(self) == type(other):
             return cinversion_list.inversion_list_not_equal(self.structure, (<IntegerSet>other).structure)
         
         return True
 
     def __lt__(self, other: "IntegerSet") -> bool:
+        """Check if self is strictly included in other"""
         return cinversion_list.inversion_list_less(self.structure, (<IntegerSet>other).structure)
 
-        """Check if self is strictly included in other"""
-        if type(self) == type(other):
-            return cinversion_list.inversion_list_less(self.structure, (<IntegerSet>other).structure)
-        
-        return False
-
     def __le__(self, other: "IntegerSet") -> bool:
+        """Check if self is included or is equal to other"""
         return cinversion_list.inversion_list_less_equal(self.structure, (<IntegerSet>other).structure)
 
-        """Check if self is included or is equal to other"""
-        if type(self) == type(other):
-            return cinversion_list.inversion_list_less_equal(self.structure, (<IntegerSet>other).structure)
-        
-        return False
-
     def __gt__(self, other: "IntegerSet") -> bool:
+        """Check if self strictly includes other """
         return cinversion_list.inversion_list_greater(self.structure, (<IntegerSet>other).structure)
 
-        """Check if self strictly includes other """
-        if type(self) == type(other):
-            return cinversion_list.inversion_list_greater(self.structure, (<IntegerSet>other).structure)
-        
-        return False
-
     def __ge__(self, other: "IntegerSet") -> bool:
+        """Check if self includes or is equal to other"""
         return cinversion_list.inversion_list_greater_equal(self.structure, (<IntegerSet>other).structure)
 
-        """Check if self includes or is equal to other"""
-        if type(self) == type(other):
-            return cinversion_list.inversion_list_greater_equal(self.structure, (<IntegerSet>other).structure)
-        
-        return False
-
     def isdisjoint(self, other: Iterable[int]) -> bool:
-<<<<<<< HEAD
+        """Check that 2 IntegerSet have no elements in common"""
         new_set = IntegerSet.from_iterable(other)
         return cinversion_list.inversion_list_disjoint(self.structure, (<IntegerSet>new_set).structure)
-=======
-        """Check that 2 IntegerSet have no elements in common"""
-        pass
->>>>>>> 7313911 (add doc in inversion_list.pxd)
 
     def __and__(self, other: "IntegerSet") -> "IntegerSet":
+        """Return an IntegerSet who is the intersection of self and other"""
         new_set: IntegerSet = IntegerSet.from_iterable(self)
 
         cdef cinversion_list.InversionList *new_structure = cinversion_list.inversion_list_intersection(new_set.structure, (<IntegerSet>other).structure, NULL)
@@ -267,6 +241,7 @@ cdef class IntegerSet:
         return new_set
 
     def intersection(self, *others: Iterator[int]) -> "IntegerSet":
+        """Return an IntegerSet who is the intersection of IntegerSet and all IntegerSet in arguments""" 
         new_set = IntegerSet.from_iterable(self)
 
         for other in others:
@@ -275,6 +250,7 @@ cdef class IntegerSet:
         return new_set
 
     def __or__(self, other: "IntegerSet") -> "IntegerSet":
+        """Return a new InversionList who is the union of self and other"""
         new_set: IntegerSet = IntegerSet.from_iterable(self)
 
         cdef cinversion_list.InversionList *new_structure = cinversion_list.inversion_list_union(new_set.structure, (<IntegerSet>other).structure, NULL)
@@ -284,6 +260,7 @@ cdef class IntegerSet:
         return new_set
 
     def union(self, *others: Iterator[int]) -> "IntegerSet":
+        """Return a new InversionList who is the union of set and all IntegerSet in arguments"""
         new_set = IntegerSet.from_iterable(self)
 
         for other in others:
@@ -292,55 +269,34 @@ cdef class IntegerSet:
         return new_set
 
     def __sub__(self, other: "IntegerSet") -> "IntegerSet":
+        """Return a new InversionList who is the difference between set and other"""
         new_set: IntegerSet = IntegerSet.from_iterable(self)
 
         cdef cinversion_list.InversionList *new_structure = cinversion_list.inversion_list_difference(new_set.structure, (<IntegerSet>other).structure, NULL)
         cinversion_list.inversion_list_destroy(new_set.structure)
         new_set.structure = new_structure
-    def __and__(self, other: "IntegerSet") -> "IntegerSet": 
-        """Return an IntegerSet who is the intersection of self and other"""
-        pass
 
         return new_set
 
     def difference(self, *others: Iterator[int]) -> "IntegerSet":
+        """Return a new InversionList who is the difference between set and all IntegerSet in arguments"""
         new_set = IntegerSet.from_iterable(self)
-    def intersection(self, *others: Iterator[int]) -> "IntegerSet":
-        """Return an IntegerSet who is the intersection of IntegerSet and all IntegerSet in arguments""" 
-        pass
-        
-    def __or__(self, other: "IntegerSet") -> "IntegerSet": 
-        """Return a new InversionList who is the union of self and other"""
-        pass
 
         for other in others:
             new_set = new_set - IntegerSet.from_iterable(other)
-    def union(self, *others: Iterator[int]) -> "IntegerSet": 
-        """Return a new InversionList who is the union of set and all IntegerSet in arguments"""
-        pass
-    def __sub__(self, other: "IntegerSet") -> "IntegerSet": 
-        """Return a new InversionList who is the difference between set and other"""
-        pass
 
         return new_set
-    def difference(self, *others: Iterator[int]) -> "IntegerSet": 
-        """Return a new InversionList who is the difference between set and all IntegerSet in arguments"""
-        pass
 
     def __xor__(self, other: "IntegerSet") -> "IntegerSet":
-        new_set: IntegerSet = IntegerSet.from_iterable(self)
-    def __xor__(self, other: "IntegerSet") -> "IntegerSet":
         """Check the set consisting of elements belonging to self and other but not belonging to the intersection of self and other"""
-        pass
+        new_set: IntegerSet = IntegerSet.from_iterable(self)
 
         cdef cinversion_list.InversionList *new_structure = cinversion_list.inversion_list_symmetric_difference(new_set.structure, (<IntegerSet>other).structure)
         cinversion_list.inversion_list_destroy(new_set.structure)
         new_set.structure = new_structure
 
         return new_set
-    def symmetric_difference(self, other: Iterator[int]) -> "IntegerSet": 
-        """Check the set consisting of elements belonging to self and other but not belonging to the intersection of self and other"""
-        pass
 
     def symmetric_difference(self, other: Iterator[int]) -> "IntegerSet":
+        """Check the set consisting of elements belonging to self and other but not belonging to the intersection of self and other"""
         return IntegerSet.from_iterable(self) ^ IntegerSet.from_iterable(other)
