@@ -105,6 +105,6 @@ add_custom_command(
         COMMAND genhtml coverage.info --output-directory ${CMAKE_CURRENT_BINARY_DIR}/coverage-html
 )
 add_custom_target(
-        html-coverage ALL
+        html-coverage
         DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/coverage-html
 )
