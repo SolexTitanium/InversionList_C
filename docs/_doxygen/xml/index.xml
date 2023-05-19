@@ -21,8 +21,10 @@
     <member refid="inversion-list_8h_1a52105c0dd7f451af824084a670e40078" kind="function"><name>inversion_list_greater</name></member>
     <member refid="inversion-list_8h_1a92a94557d54111366a433c704e7f0cf6" kind="function"><name>inversion_list_greater_equal</name></member>
     <member refid="inversion-list_8h_1a4c9773ce2cbe0283c28f2e08ae9bccf9" kind="function"><name>inversion_list_disjoint</name></member>
-    <member refid="inversion-list_8h_1a06b0d50170a4d70aef548fad536dc496" kind="function"><name>inversion_list_union</name></member>
-    <member refid="inversion-list_8h_1a99e376d2d48d57c1ed91d0f53f40fed3" kind="function"><name>inversion_list_intersection</name></member>
+    <member refid="inversion-list_8h_1a75666c61858946910b542949cb67fc28" kind="function"><name>inversion_list_union</name></member>
+    <member refid="inversion-list_8h_1a4a066d06357d97a27e8f8710e72e54ce" kind="function"><name>inversion_list_intersection</name></member>
+    <member refid="inversion-list_8h_1adae7a4826d711087ec856357022fb3f0" kind="function"><name>inversion_list_difference</name></member>
+    <member refid="inversion-list_8h_1ac71de04c1a9fb1d70226e263ccfe1df5" kind="function"><name>inversion_list_symmetric_difference</name></member>
     <member refid="inversion-list_8h_1ac9298cc1602312e8e1ce0b85cfd7b4ef" kind="function"><name>inversion_list_iterator_create</name></member>
     <member refid="inversion-list_8h_1aed23b925a89bdb6e0f611939f34c8454" kind="function"><name>inversion_list_iterator_destroy</name></member>
     <member refid="inversion-list_8h_1a244fb399ae9f390508b0ec5fab3f661c" kind="function"><name>inversion_list_iterator_next</name></member>
@@ -33,7 +35,7 @@
     <member refid="inversion-list_8h_1a66c190d97112c9ea755cc71455c74c31" kind="function"><name>inversion_list_couple_iterator_destroy</name></member>
     <member refid="inversion-list_8h_1acaa690531ebb6d04d8117532cc815eca" kind="function"><name>inversion_list_couple_iterator_next</name></member>
     <member refid="inversion-list_8h_1aba8191f6a0e2787e0b457902cb2698b2" kind="function"><name>inversion_list_couple_iterator_rewind</name></member>
-    <member refid="inversion-list_8h_1ad190d2d6ce9fcd4d5643eb7a95d48cab" kind="function"><name>inversion_list_iterator_couple_valid</name></member>
+    <member refid="inversion-list_8h_1adbbe3e8d16180b961a158352766839d2" kind="function"><name>inversion_list_couple_iterator_valid</name></member>
     <member refid="inversion-list_8h_1a39fb60573a583fbed3118f4046505b03" kind="function"><name>inversion_list_couple_iterator_get_inf</name></member>
     <member refid="inversion-list_8h_1acd2912341dd4bac1cbe7d11583c78349" kind="function"><name>inversion_list_couple_iterator_get_sup</name></member>
   </compound>

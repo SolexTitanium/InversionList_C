@@ -61,9 +61,13 @@ Functions
 
 - :ref:`exhale_function_inversion-list_8h_1aba8191f6a0e2787e0b457902cb2698b2`
 
+- :ref:`exhale_function_inversion-list_8h_1adbbe3e8d16180b961a158352766839d2`
+
 - :ref:`exhale_function_inversion-list_8h_1a1ed11d969907d7cc451fba515468d578`
 
 - :ref:`exhale_function_inversion-list_8h_1a072264e79aaff89bde71422a83b57702`
+
+- :ref:`exhale_function_inversion-list_8h_1adae7a4826d711087ec856357022fb3f0`
 
 - :ref:`exhale_function_inversion-list_8h_1a4c9773ce2cbe0283c28f2e08ae9bccf9`
 
@@ -77,9 +81,7 @@ Functions
 
 - :ref:`exhale_function_inversion-list_8h_1a2bc226a34f343c83f0091bd349d2e3c2`
 
-- :ref:`exhale_function_inversion-list_8h_1a99e376d2d48d57c1ed91d0f53f40fed3`
-
-- :ref:`exhale_function_inversion-list_8h_1ad190d2d6ce9fcd4d5643eb7a95d48cab`
+- :ref:`exhale_function_inversion-list_8h_1a4a066d06357d97a27e8f8710e72e54ce`
 
 - :ref:`exhale_function_inversion-list_8h_1ac9298cc1602312e8e1ce0b85cfd7b4ef`
 
@@ -103,9 +105,11 @@ Functions
 
 - :ref:`exhale_function_inversion-list_8h_1a62dfa31fa3b0c875dfec1a382504f0b6`
 
+- :ref:`exhale_function_inversion-list_8h_1ac71de04c1a9fb1d70226e263ccfe1df5`
+
 - :ref:`exhale_function_inversion-list_8h_1a199badaff9b07378dcf53910f3252142`
 
-- :ref:`exhale_function_inversion-list_8h_1a06b0d50170a4d70aef548fad536dc496`
+- :ref:`exhale_function_inversion-list_8h_1a75666c61858946910b542949cb67fc28`
 
 
 Typedefs

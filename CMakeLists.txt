@@ -84,3 +84,14 @@ set(CPACK_SOURCE_GENERATOR "ZIP")
 set(CPACK_SOURCE_IGNORE_FILES "~$;${CPACK_SOURCE_IGNORE_FILES}")
 include(CPack)
 
+# Make docs command
+
+add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/html
+    COMMAND sphinx-build -b html ${CMAKE_CURRENT_SOURCE_DIR}/docs ${CMAKE_CURRENT_BINARY_DIR}/html
+)
+
+add_custom_target(
+    docs ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/html
+)
