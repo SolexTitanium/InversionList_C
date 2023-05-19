@@ -105,14 +105,19 @@ cdef class IntegerSet:
         intervals: Optional[Iterable[Tuple[int, int]]] = None,
     ) -> None:
         cdef array.array values = array.array('I', [])
+
         if intervals is not None:
             for interval in intervals:
                 for value in range(interval[0], interval[1]):
                     values.append(value)
+            
+            maximum = max(values)
+        else:
+            maximum = 0
 
         self.size = len(values)
-        self.structure = cinversion_list.inversion_list_create(max(values) + 1, self.size, <unsigned int *>values.data.as_voidptr)
-        if not self.structure:
+        self.structure = cinversion_list.inversion_list_create(maximum + 1, self.size, <unsigned int *>values.data.as_voidptr)
+        if not self.structure: 
             raise MemoryError("Error when creating the inversion list")
     
     def __dealloc__(self):
@@ -122,7 +127,25 @@ cdef class IntegerSet:
     def from_iterable(
         cls,
         iterable: Optional[Iterable[int]] = None, 
-    ) -> "IntegerSet": pass
+    ) -> "IntegerSet":
+        integer_set = IntegerSet()
+        cdef array.array values = array.array('I', [])
+
+        if iterable is not None:
+            for value in iterable:
+                values.append(value)
+            
+            maximum = max(values)
+        else:
+            maximum = 0
+        
+        integer_set.size = len(values)
+        cinversion_list.inversion_list_destroy(integer_set.structure)
+        integer_set.structure = cinversion_list.inversion_list_create(maximum + 1, integer_set.size, <unsigned int *>values.data.as_voidptr)
+        if not integer_set.structure:
+            raise MemoryError("Error when creating the inversion list")
+
+        return integer_set
 
     def __repr__(self) -> str:
         return cinversion_list.inversion_list_to_string(self.structure).decode()
