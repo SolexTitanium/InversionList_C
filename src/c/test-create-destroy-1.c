@@ -12,6 +12,11 @@
 int main(void) {
   inversion_list_init();
   {
+    InversionList *set = inversion_list_create(0, 0, NULL);
+    assert(set != NULL);
+    inversion_list_destroy(set);
+  }
+  {
     unsigned int a[] = {1, 2, 3, 5, 7, 8, 9};
     InversionList *set = inversion_list_create(20, sizeof a / sizeof *a, a);
     assert(set->capacity == 20);

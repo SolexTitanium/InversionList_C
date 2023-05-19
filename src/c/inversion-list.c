@@ -180,7 +180,8 @@ InversionList *inversion_list_create(unsigned int capacity, size_t count, const 
   }
 
   void *buffer = _get_buffer(count * element_size);
-  if (!buffer) {
+  // Buffer will not be accessed if count == 0
+  if (!buffer && count != 0) {
     return NULL;
   }
 
