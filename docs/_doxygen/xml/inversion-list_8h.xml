@@ -1,0 +1,873 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.6" xml:lang="en-US">
+  <compounddef id="inversion-list_8h" kind="file" language="C++">
+    <compoundname>inversion-list.h</compoundname>
+    <includes local="no">stdbool.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/inversion-list.h</label>
+        <link refid="inversion-list_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>stdbool.h</label>
+      </node>
+      <node id="3">
+        <label>stdlib.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" prot="public" static="no">
+        <type>struct _InversionList</type>
+        <definition>typedef struct _InversionList InversionList</definition>
+        <argsstring></argsstring>
+        <name>InversionList</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>InversionList</computeroutput> is an opaque structure able to handle sets of unsigned integers. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="14" column="29" bodyfile="include/inversion-list.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="inversion-list_8h_1ace83dc8e112d4376c1f01b110899dd0f" prot="public" static="no">
+        <type>struct _InversionListIterator</type>
+        <definition>typedef struct _InversionListIterator InversionListIterator</definition>
+        <argsstring></argsstring>
+        <name>InversionListIterator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="16" column="37" bodyfile="include/inversion-list.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="inversion-list_8h_1adcfd22691e34fa430db5da9e53f34155" prot="public" static="no">
+        <type>struct _InversionListCoupleIterator</type>
+        <definition>typedef struct _InversionListCoupleIterator InversionListCoupleIterator</definition>
+        <argsstring></argsstring>
+        <name>InversionListCoupleIterator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="18" column="43" bodyfile="include/inversion-list.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="inversion-list_8h_1a2bc226a34f343c83f0091bd349d2e3c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_init</definition>
+        <argsstring>(void)</argsstring>
+        <name>inversion_list_init</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialise the library. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="23" column="13" declfile="include/inversion-list.h" declline="23" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a19ffeb389a51a54843b7e1760940c0c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_finish</definition>
+        <argsstring>(void)</argsstring>
+        <name>inversion_list_finish</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Terminate the library. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="27" column="13" declfile="include/inversion-list.h" declline="27" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a1ed11d969907d7cc451fba515468d578" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+        <definition>InversionList * inversion_list_create</definition>
+        <argsstring>(unsigned int capacity, size_t count, const unsigned int *values)</argsstring>
+        <name>inversion_list_create</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>capacity</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>const unsigned int *</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a set of integers.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the capacity not to be reached </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of elements of <computeroutput>values</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the values to be inserted in the set</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a new set of integers or <computeroutput>NULL</computeroutput> if there is an error</para>
+</simplesect>
+<simplesect kind="note"><para>a <computeroutput>NULL</computeroutput> return indicates an error which can be retrieved in <computeroutput>errno</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="40" column="22" declfile="include/inversion-list.h" declline="40" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a072264e79aaff89bde71422a83b57702" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void inversion_list_destroy</definition>
+        <argsstring>(InversionList *set)</argsstring>
+        <name>inversion_list_destroy</name>
+        <param>
+          <type><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Destroy a set of integers.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the set to be destroyed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="46" column="13" declfile="include/inversion-list.h" declline="46" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a06778b8c6da5d5e46bed2a3bcf457f5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int inversion_list_capacity</definition>
+        <argsstring>(const InversionList *set)</argsstring>
+        <name>inversion_list_capacity</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the set capacity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the set whose capacity is requested</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the <computeroutput>set</computeroutput> capacity </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="55" column="21" declfile="include/inversion-list.h" declline="55" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a62dfa31fa3b0c875dfec1a382504f0b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int inversion_list_support</definition>
+        <argsstring>(const InversionList *set)</argsstring>
+        <name>inversion_list_support</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the set support.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the set whose support is requested</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the <computeroutput>set</computeroutput> support </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="63" column="21" declfile="include/inversion-list.h" declline="63" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1abbd132d28163e55e19fb1c555857e747" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_member</definition>
+        <argsstring>(const InversionList *set, unsigned int value)</argsstring>
+        <name>inversion_list_member</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set</declname>
+        </param>
+        <param>
+          <type>unsigned int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the membership of an element.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the set for which the membership of the <computeroutput>value</computeroutput> is requested </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the membership of the <computeroutput>value</computeroutput> in the <computeroutput>set</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="73" column="13" declfile="include/inversion-list.h" declline="73" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a8a2fc2f3411cb9d5cc99ae2d76d73c89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+        <definition>InversionList * inversion_list_clone</definition>
+        <argsstring>(const InversionList *set)</argsstring>
+        <name>inversion_list_clone</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a clone of set of integers.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a set whose clone is requested</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a <computeroutput>set</computeroutput> clone or <computeroutput>NULL</computeroutput> if there is an error</para>
+</simplesect>
+<simplesect kind="note"><para>a <computeroutput>NULL</computeroutput> return indicates an error which can be retrieved in <computeroutput>errno</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="83" column="22" declfile="include/inversion-list.h" declline="83" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a36f6b34e7ff8fb73b2ee83153530cb0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+        <definition>InversionList * inversion_list_complement</definition>
+        <argsstring>(const InversionList *set)</argsstring>
+        <name>inversion_list_complement</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a complement of a set of integers.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a set whose complement is requested</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a <computeroutput>set</computeroutput> complement or <computeroutput>NULL</computeroutput> if there is an error</para>
+</simplesect>
+<simplesect kind="note"><para>a <computeroutput>NULL</computeroutput> return indicates an error which can be retrieved in <computeroutput>errno</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="93" column="22" declfile="include/inversion-list.h" declline="93" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a199badaff9b07378dcf53910f3252142" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * inversion_list_to_string</definition>
+        <argsstring>(const InversionList *set)</argsstring>
+        <name>inversion_list_to_string</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert a set of integers to a string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a set whose string conversion is requested</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the string representation of <computeroutput>set</computeroutput> or <computeroutput>NULL</computeroutput> if there is an error or if <computeroutput>set</computeroutput> is equal to <computeroutput>NULL</computeroutput>.</para>
+</simplesect>
+<simplesect kind="note"><para>a <computeroutput>NULL</computeroutput> return may indicate an error which can be retrieved in <computeroutput>errno</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="105" column="19" declfile="include/inversion-list.h" declline="105" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a05f72c85cd99ab4644102e110fff894b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_equal</definition>
+        <argsstring>(const InversionList *set1, const InversionList *set2)</argsstring>
+        <name>inversion_list_equal</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="107" column="13" declfile="include/inversion-list.h" declline="107" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1aeb649dc41cb35cefdc020da6ec80d51d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_not_equal</definition>
+        <argsstring>(const InversionList *set1, const InversionList *set2)</argsstring>
+        <name>inversion_list_not_equal</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="109" column="13" declfile="include/inversion-list.h" declline="109" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a83e835ef1209134d3bce332c9088c11a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_less</definition>
+        <argsstring>(const InversionList *set1, const InversionList *set2)</argsstring>
+        <name>inversion_list_less</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="111" column="13" declfile="include/inversion-list.h" declline="111" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1ac366621cd0fcba7c7370bfeb68b88e9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_less_equal</definition>
+        <argsstring>(const InversionList *set1, const InversionList *set2)</argsstring>
+        <name>inversion_list_less_equal</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="113" column="13" declfile="include/inversion-list.h" declline="113" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a52105c0dd7f451af824084a670e40078" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_greater</definition>
+        <argsstring>(const InversionList *set1, const InversionList *set2)</argsstring>
+        <name>inversion_list_greater</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="115" column="13" declfile="include/inversion-list.h" declline="115" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a92a94557d54111366a433c704e7f0cf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_greater_equal</definition>
+        <argsstring>(const InversionList *set1, const InversionList *set2)</argsstring>
+        <name>inversion_list_greater_equal</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="117" column="13" declfile="include/inversion-list.h" declline="117" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a4c9773ce2cbe0283c28f2e08ae9bccf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_disjoint</definition>
+        <argsstring>(const InversionList *set1, const InversionList *set2)</argsstring>
+        <name>inversion_list_disjoint</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="119" column="13" declfile="include/inversion-list.h" declline="119" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a06b0d50170a4d70aef548fad536dc496" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+        <definition>InversionList * inversion_list_union</definition>
+        <argsstring>(const InversionList *set1, const InversionList *set2)</argsstring>
+        <name>inversion_list_union</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="121" column="22" declfile="include/inversion-list.h" declline="121" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a99e376d2d48d57c1ed91d0f53f40fed3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+        <definition>InversionList * inversion_list_intersection</definition>
+        <argsstring>(const InversionList *set1, const InversionList *set2)</argsstring>
+        <name>inversion_list_intersection</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="123" column="22" declfile="include/inversion-list.h" declline="123" declcolumn="22"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1ac9298cc1602312e8e1ce0b85cfd7b4ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>InversionListIterator *</type>
+        <definition>InversionListIterator * inversion_list_iterator_create</definition>
+        <argsstring>(const InversionList *set)</argsstring>
+        <name>inversion_list_iterator_create</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="125" column="30" declfile="include/inversion-list.h" declline="125" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1aed23b925a89bdb6e0f611939f34c8454" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void inversion_list_iterator_destroy</definition>
+        <argsstring>(InversionListIterator *iterator)</argsstring>
+        <name>inversion_list_iterator_destroy</name>
+        <param>
+          <type>InversionListIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="127" column="13" declfile="include/inversion-list.h" declline="127" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a244fb399ae9f390508b0ec5fab3f661c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>InversionListIterator *</type>
+        <definition>InversionListIterator * inversion_list_iterator_next</definition>
+        <argsstring>(InversionListIterator *iterator)</argsstring>
+        <name>inversion_list_iterator_next</name>
+        <param>
+          <type>InversionListIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="129" column="30" declfile="include/inversion-list.h" declline="129" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a8290de48285b911d1c518ce5aeaef58c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>InversionListIterator *</type>
+        <definition>InversionListIterator * inversion_list_iterator_rewind</definition>
+        <argsstring>(InversionListIterator *iterator)</argsstring>
+        <name>inversion_list_iterator_rewind</name>
+        <param>
+          <type>InversionListIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="131" column="30" declfile="include/inversion-list.h" declline="131" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1af4bc190d4a68a3806b1769d06a56c44b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_iterator_valid</definition>
+        <argsstring>(const InversionListIterator *iterator)</argsstring>
+        <name>inversion_list_iterator_valid</name>
+        <param>
+          <type>const InversionListIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="133" column="13" declfile="include/inversion-list.h" declline="133" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1afab8feb391d2b07ce16717cc5c5e7e8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int inversion_list_iterator_get</definition>
+        <argsstring>(const InversionListIterator *iterator)</argsstring>
+        <name>inversion_list_iterator_get</name>
+        <param>
+          <type>const InversionListIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="135" column="21" declfile="include/inversion-list.h" declline="135" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1af49c67742ed28a2dd5082ce46fc741ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>InversionListCoupleIterator *</type>
+        <definition>InversionListCoupleIterator * inversion_list_couple_iterator_create</definition>
+        <argsstring>(const InversionList *set)</argsstring>
+        <name>inversion_list_couple_iterator_create</name>
+        <param>
+          <type>const <ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref> *</type>
+          <declname>set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="137" column="36" declfile="include/inversion-list.h" declline="137" declcolumn="36"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a66c190d97112c9ea755cc71455c74c31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void inversion_list_couple_iterator_destroy</definition>
+        <argsstring>(InversionListCoupleIterator *iterator)</argsstring>
+        <name>inversion_list_couple_iterator_destroy</name>
+        <param>
+          <type>InversionListCoupleIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="139" column="13" declfile="include/inversion-list.h" declline="139" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1acaa690531ebb6d04d8117532cc815eca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>InversionListCoupleIterator *</type>
+        <definition>InversionListCoupleIterator * inversion_list_couple_iterator_next</definition>
+        <argsstring>(InversionListCoupleIterator *iterator)</argsstring>
+        <name>inversion_list_couple_iterator_next</name>
+        <param>
+          <type>InversionListCoupleIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="141" column="36" declfile="include/inversion-list.h" declline="141" declcolumn="36"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1aba8191f6a0e2787e0b457902cb2698b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>InversionListCoupleIterator *</type>
+        <definition>InversionListCoupleIterator * inversion_list_couple_iterator_rewind</definition>
+        <argsstring>(InversionListCoupleIterator *iterator)</argsstring>
+        <name>inversion_list_couple_iterator_rewind</name>
+        <param>
+          <type>InversionListCoupleIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="143" column="36" declfile="include/inversion-list.h" declline="143" declcolumn="36"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1ad190d2d6ce9fcd4d5643eb7a95d48cab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool inversion_list_iterator_couple_valid</definition>
+        <argsstring>(const InversionListCoupleIterator *iterator)</argsstring>
+        <name>inversion_list_iterator_couple_valid</name>
+        <param>
+          <type>const InversionListCoupleIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="145" column="13" declfile="include/inversion-list.h" declline="145" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1a39fb60573a583fbed3118f4046505b03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int inversion_list_couple_iterator_get_inf</definition>
+        <argsstring>(const InversionListCoupleIterator *iterator)</argsstring>
+        <name>inversion_list_couple_iterator_get_inf</name>
+        <param>
+          <type>const InversionListCoupleIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="147" column="21" declfile="include/inversion-list.h" declline="147" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="inversion-list_8h_1acd2912341dd4bac1cbe7d11583c78349" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int inversion_list_couple_iterator_get_sup</definition>
+        <argsstring>(const InversionListCoupleIterator *iterator)</argsstring>
+        <name>inversion_list_couple_iterator_get_sup</name>
+        <param>
+          <type>const InversionListCoupleIterator *</type>
+          <declname>iterator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/inversion-list.h" line="149" column="21" declfile="include/inversion-list.h" declline="149" declcolumn="21"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>INVERSION_LIST_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INVERSION_LIST_H_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdbool.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_InversionList<sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_InversionListIterator<sp/>InversionListIterator;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">_InversionListCoupleIterator<sp/>InversionListCoupleIterator;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="inversion-list_8h_1a2bc226a34f343c83f0091bd349d2e3c2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a2bc226a34f343c83f0091bd349d2e3c2" kindref="member">inversion_list_init</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27" refid="inversion-list_8h_1a19ffeb389a51a54843b7e1760940c0c2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a19ffeb389a51a54843b7e1760940c0c2" kindref="member">inversion_list_finish</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="inversion-list_8h_1a1ed11d969907d7cc451fba515468d578" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*<ref refid="inversion-list_8h_1a1ed11d969907d7cc451fba515468d578" kindref="member">inversion_list_create</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>capacity,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>*values);</highlight></codeline>
+<codeline lineno="46" refid="inversion-list_8h_1a072264e79aaff89bde71422a83b57702" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a072264e79aaff89bde71422a83b57702" kindref="member">inversion_list_destroy</ref>(<ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="inversion-list_8h_1a06778b8c6da5d5e46bed2a3bcf457f5d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a06778b8c6da5d5e46bed2a3bcf457f5d" kindref="member">inversion_list_capacity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set);</highlight></codeline>
+<codeline lineno="63" refid="inversion-list_8h_1a62dfa31fa3b0c875dfec1a382504f0b6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a62dfa31fa3b0c875dfec1a382504f0b6" kindref="member">inversion_list_support</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="inversion-list_8h_1abbd132d28163e55e19fb1c555857e747" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1abbd132d28163e55e19fb1c555857e747" kindref="member">inversion_list_member</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="83" refid="inversion-list_8h_1a8a2fc2f3411cb9d5cc99ae2d76d73c89" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*<ref refid="inversion-list_8h_1a8a2fc2f3411cb9d5cc99ae2d76d73c89" kindref="member">inversion_list_clone</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set);</highlight></codeline>
+<codeline lineno="93" refid="inversion-list_8h_1a36f6b34e7ff8fb73b2ee83153530cb0e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*<ref refid="inversion-list_8h_1a36f6b34e7ff8fb73b2ee83153530cb0e" kindref="member">inversion_list_complement</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="inversion-list_8h_1a199badaff9b07378dcf53910f3252142" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*<ref refid="inversion-list_8h_1a199badaff9b07378dcf53910f3252142" kindref="member">inversion_list_to_string</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inversion_list_equal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set2);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inversion_list_not_equal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set2);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inversion_list_less(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set2);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inversion_list_less_equal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set2);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inversion_list_greater(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set2);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inversion_list_greater_equal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set2);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inversion_list_disjoint(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set2);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*inversion_list_union(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set2);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*inversion_list_intersection(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set1,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set2);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>InversionListIterator<sp/>*inversion_list_iterator_create(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>inversion_list_iterator_destroy(InversionListIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>InversionListIterator<sp/>*inversion_list_iterator_next(InversionListIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>InversionListIterator<sp/>*inversion_list_iterator_rewind(InversionListIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inversion_list_iterator_valid(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InversionListIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>inversion_list_iterator_get(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InversionListIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>InversionListCoupleIterator<sp/>*inversion_list_couple_iterator_create(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kindref="member">InversionList</ref><sp/>*set);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>inversion_list_couple_iterator_destroy(InversionListCoupleIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>InversionListCoupleIterator<sp/>*inversion_list_couple_iterator_next(InversionListCoupleIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/>InversionListCoupleIterator<sp/>*inversion_list_couple_iterator_rewind(InversionListCoupleIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inversion_list_iterator_couple_valid(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InversionListCoupleIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>inversion_list_couple_iterator_get_inf(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InversionListCoupleIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>inversion_list_couple_iterator_get_sup(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InversionListCoupleIterator<sp/>*iterator);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>INVERSION_LIST_H_</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/inversion-list.h"/>
+  </compounddef>
+</doxygen>

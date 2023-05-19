@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.6" xml:lang="en-US">
+  <compound refid="inversion-list_8h" kind="file"><name>inversion-list.h</name>
+    <member refid="inversion-list_8h_1a7a01e1fa072b13ae68a85f54ed69380c" kind="typedef"><name>InversionList</name></member>
+    <member refid="inversion-list_8h_1ace83dc8e112d4376c1f01b110899dd0f" kind="typedef"><name>InversionListIterator</name></member>
+    <member refid="inversion-list_8h_1adcfd22691e34fa430db5da9e53f34155" kind="typedef"><name>InversionListCoupleIterator</name></member>
+    <member refid="inversion-list_8h_1a2bc226a34f343c83f0091bd349d2e3c2" kind="function"><name>inversion_list_init</name></member>
+    <member refid="inversion-list_8h_1a19ffeb389a51a54843b7e1760940c0c2" kind="function"><name>inversion_list_finish</name></member>
+    <member refid="inversion-list_8h_1a1ed11d969907d7cc451fba515468d578" kind="function"><name>inversion_list_create</name></member>
+    <member refid="inversion-list_8h_1a072264e79aaff89bde71422a83b57702" kind="function"><name>inversion_list_destroy</name></member>
+    <member refid="inversion-list_8h_1a06778b8c6da5d5e46bed2a3bcf457f5d" kind="function"><name>inversion_list_capacity</name></member>
+    <member refid="inversion-list_8h_1a62dfa31fa3b0c875dfec1a382504f0b6" kind="function"><name>inversion_list_support</name></member>
+    <member refid="inversion-list_8h_1abbd132d28163e55e19fb1c555857e747" kind="function"><name>inversion_list_member</name></member>
+    <member refid="inversion-list_8h_1a8a2fc2f3411cb9d5cc99ae2d76d73c89" kind="function"><name>inversion_list_clone</name></member>
+    <member refid="inversion-list_8h_1a36f6b34e7ff8fb73b2ee83153530cb0e" kind="function"><name>inversion_list_complement</name></member>
+    <member refid="inversion-list_8h_1a199badaff9b07378dcf53910f3252142" kind="function"><name>inversion_list_to_string</name></member>
+    <member refid="inversion-list_8h_1a05f72c85cd99ab4644102e110fff894b" kind="function"><name>inversion_list_equal</name></member>
+    <member refid="inversion-list_8h_1aeb649dc41cb35cefdc020da6ec80d51d" kind="function"><name>inversion_list_not_equal</name></member>
+    <member refid="inversion-list_8h_1a83e835ef1209134d3bce332c9088c11a" kind="function"><name>inversion_list_less</name></member>
+    <member refid="inversion-list_8h_1ac366621cd0fcba7c7370bfeb68b88e9b" kind="function"><name>inversion_list_less_equal</name></member>
+    <member refid="inversion-list_8h_1a52105c0dd7f451af824084a670e40078" kind="function"><name>inversion_list_greater</name></member>
+    <member refid="inversion-list_8h_1a92a94557d54111366a433c704e7f0cf6" kind="function"><name>inversion_list_greater_equal</name></member>
+    <member refid="inversion-list_8h_1a4c9773ce2cbe0283c28f2e08ae9bccf9" kind="function"><name>inversion_list_disjoint</name></member>
+    <member refid="inversion-list_8h_1a06b0d50170a4d70aef548fad536dc496" kind="function"><name>inversion_list_union</name></member>
+    <member refid="inversion-list_8h_1a99e376d2d48d57c1ed91d0f53f40fed3" kind="function"><name>inversion_list_intersection</name></member>
+    <member refid="inversion-list_8h_1ac9298cc1602312e8e1ce0b85cfd7b4ef" kind="function"><name>inversion_list_iterator_create</name></member>
+    <member refid="inversion-list_8h_1aed23b925a89bdb6e0f611939f34c8454" kind="function"><name>inversion_list_iterator_destroy</name></member>
+    <member refid="inversion-list_8h_1a244fb399ae9f390508b0ec5fab3f661c" kind="function"><name>inversion_list_iterator_next</name></member>
+    <member refid="inversion-list_8h_1a8290de48285b911d1c518ce5aeaef58c" kind="function"><name>inversion_list_iterator_rewind</name></member>
+    <member refid="inversion-list_8h_1af4bc190d4a68a3806b1769d06a56c44b" kind="function"><name>inversion_list_iterator_valid</name></member>
+    <member refid="inversion-list_8h_1afab8feb391d2b07ce16717cc5c5e7e8a" kind="function"><name>inversion_list_iterator_get</name></member>
+    <member refid="inversion-list_8h_1af49c67742ed28a2dd5082ce46fc741ec" kind="function"><name>inversion_list_couple_iterator_create</name></member>
+    <member refid="inversion-list_8h_1a66c190d97112c9ea755cc71455c74c31" kind="function"><name>inversion_list_couple_iterator_destroy</name></member>
+    <member refid="inversion-list_8h_1acaa690531ebb6d04d8117532cc815eca" kind="function"><name>inversion_list_couple_iterator_next</name></member>
+    <member refid="inversion-list_8h_1aba8191f6a0e2787e0b457902cb2698b2" kind="function"><name>inversion_list_couple_iterator_rewind</name></member>
+    <member refid="inversion-list_8h_1ad190d2d6ce9fcd4d5643eb7a95d48cab" kind="function"><name>inversion_list_iterator_couple_valid</name></member>
+    <member refid="inversion-list_8h_1a39fb60573a583fbed3118f4046505b03" kind="function"><name>inversion_list_couple_iterator_get_inf</name></member>
+    <member refid="inversion-list_8h_1acd2912341dd4bac1cbe7d11583c78349" kind="function"><name>inversion_list_couple_iterator_get_sup</name></member>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+</doxygenindex>
