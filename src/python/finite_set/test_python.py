@@ -80,6 +80,24 @@ def test_disjoint():
     assert(set_a.isdisjoint(c) == True)
     assert(set_a.isdisjoint(d) == False)
 
+def test_intersection():
+    a = [1, 2, 3]
+    b = [1]
+    c = [1, 2, 3, 7, 8, 9, 10, 12, 13, 14]
+    d = [2, 3, 4, 5, 8, 9, 10, 11]
+    e = []
+
+    set_a = inversion_list.IntegerSet.from_iterable(a)
+    set_b = inversion_list.IntegerSet.from_iterable(b)
+    set_c = inversion_list.IntegerSet.from_iterable(c)
+    set_d = inversion_list.IntegerSet.from_iterable(d)
+    set_e = inversion_list.IntegerSet.from_iterable(e)
+
+    # for i in set_a.intersection(set_a):
+    #     print(i)
+
+    # assert(set_a.intersection(set_a) == set_a)
+
 if __name__ == "__main__":
     inversion_list.init_library()
 
@@ -87,5 +105,6 @@ if __name__ == "__main__":
     #test2()
     test_less()
     test_disjoint()
+    test_intersection()
     
     inversion_list.finish_library()

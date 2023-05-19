@@ -106,7 +106,7 @@ cdef class IntegerSet:
     ) -> None:
         cdef array.array values = array.array('I', [])
 
-        if intervals is not None:
+        if intervals is not None and len(intervals) > 0:
             for interval in intervals:
                 for value in range(interval[0], interval[1]):
                     values.append(value)
@@ -131,7 +131,7 @@ cdef class IntegerSet:
         integer_set = IntegerSet()
         cdef array.array values = array.array('I', [])
 
-        if iterable is not None:
+        if iterable is not None and len(iterable) > 0:
             for value in iterable:
                 values.append(value)
             
@@ -170,7 +170,6 @@ cdef class IntegerSet:
             return cinversion_list.inversion_list_equal(self.structure, (<IntegerSet>other).structure)
         
         return False
-        
 
     def __ne__(self, other: object) -> bool:
         if type(self) == type(other):
@@ -179,36 +178,39 @@ cdef class IntegerSet:
         return True
 
     def __lt__(self, other: "IntegerSet") -> bool:
-        if type(self) == type(other):
-            return cinversion_list.inversion_list_less(self.structure, (<IntegerSet>other).structure)
-        
-        return False
+        return cinversion_list.inversion_list_less(self.structure, (<IntegerSet>other).structure)
 
     def __le__(self, other: "IntegerSet") -> bool:
-        if type(self) == type(other):
-            return cinversion_list.inversion_list_less_equal(self.structure, (<IntegerSet>other).structure)
-        
-        return False
+        return cinversion_list.inversion_list_less_equal(self.structure, (<IntegerSet>other).structure)
 
     def __gt__(self, other: "IntegerSet") -> bool:
-        if type(self) == type(other):
-            return cinversion_list.inversion_list_greater(self.structure, (<IntegerSet>other).structure)
-        
-        return False
+        return cinversion_list.inversion_list_greater(self.structure, (<IntegerSet>other).structure)
 
     def __ge__(self, other: "IntegerSet") -> bool:
-        if type(self) == type(other):
-            return cinversion_list.inversion_list_greater_equal(self.structure, (<IntegerSet>other).structure)
-        
-        return False
+        return cinversion_list.inversion_list_greater_equal(self.structure, (<IntegerSet>other).structure)
 
     def isdisjoint(self, other: Iterable[int]) -> bool:
         new_set = IntegerSet.from_iterable(other)
         return cinversion_list.inversion_list_disjoint(self.structure, (<IntegerSet>new_set).structure)
 
-    def __and__(self, other: "IntegerSet") -> "IntegerSet": pass
+    def __and__(self, other: "IntegerSet") -> "IntegerSet":
+        pass
+        # new_set: IntegerSet = IntegerSet.from_iterable(self)
 
-    def intersection(self, *others: Iterator[int]) -> "IntegerSet": pass
+        # cdef cinversion_list.InversionList *new_structure = cinversion_list.inversion_list_intersection(new_set.structure, (<IntegerSet>other).structure)
+        # cinversion_list.inversion_list_destroy(new_set.structure)
+        # new_set.structure = new_structure
+
+        # return new_set
+
+    def intersection(self, *others: Iterator[int]) -> "IntegerSet":
+        pass
+        # new_set = IntegerSet.from_iterable(self)
+
+        # for other in others:
+        #     new_set = new_set & IntegerSet.from_iterable(other)
+
+        # return new_set
 
     def __or__(self, other: "IntegerSet") -> "IntegerSet": pass
 
