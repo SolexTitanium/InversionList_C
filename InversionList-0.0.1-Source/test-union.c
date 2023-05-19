@@ -351,6 +351,16 @@ int main(void) {
     assert(union_set->support == 0);
     inversion_list_destroy(union_set);
 
+    union_set = inversion_list_union(set_a_uint8, NULL);
+    assert(union_set->capacity == 200);
+    assert(union_set->size == 4);
+    assert(union_set->support == 11);
+    assert(union_set->couples.uint8[0] == 5);
+    assert(union_set->couples.uint8[1] == 13);
+    assert(union_set->couples.uint8[2] == 20);
+    assert(union_set->couples.uint8[3] == 23);
+    inversion_list_destroy(union_set);
+
     inversion_list_destroy(set_a_uint8);
     inversion_list_destroy(set_a_uint16);
     inversion_list_destroy(set_a_uint32);
