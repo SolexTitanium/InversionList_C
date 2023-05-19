@@ -93,10 +93,24 @@ def test_intersection():
     set_d = inversion_list.IntegerSet.from_iterable(d)
     set_e = inversion_list.IntegerSet.from_iterable(e)
 
-    # for i in set_a.intersection(set_a):
-    #     print(i)
+    assert(set_a.intersection(set_a) == set_a)
+    assert(set_a.intersection(set_b) == set_b)
+    assert(set_c.intersection(set_d) == inversion_list.IntegerSet([(2, 4), (8, 11)]))
+    assert(set_e.intersection(set_e) == inversion_list.IntegerSet())
 
-    # assert(set_a.intersection(set_a) == set_a)
+    # Second test
+
+    a = [6, 7, 8, 9, 20, 21, 22, 23]
+    b = [1, 2, 3, 16, 17, 18, 19, 20, 21]
+    c = [8, 9, 10, 11, 12, 13, 19, 20, 23, 24, 25]
+
+    set_a = inversion_list.IntegerSet.from_iterable(a)
+    set_b = inversion_list.IntegerSet.from_iterable(b)
+    set_c = inversion_list.IntegerSet.from_iterable(c)
+
+    assert(set_a.intersection() == set_a)
+    assert(set_b.intersection(set_a) == inversion_list.IntegerSet([(20, 22)]))
+    assert(set_a.intersection(set_c, set_b) == inversion_list.IntegerSet([(20, 21)]))
 
 if __name__ == "__main__":
     inversion_list.init_library()

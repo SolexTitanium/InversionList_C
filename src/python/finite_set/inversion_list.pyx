@@ -194,23 +194,21 @@ cdef class IntegerSet:
         return cinversion_list.inversion_list_disjoint(self.structure, (<IntegerSet>new_set).structure)
 
     def __and__(self, other: "IntegerSet") -> "IntegerSet":
-        pass
-        # new_set: IntegerSet = IntegerSet.from_iterable(self)
+        new_set: IntegerSet = IntegerSet.from_iterable(self)
 
-        # cdef cinversion_list.InversionList *new_structure = cinversion_list.inversion_list_intersection(new_set.structure, (<IntegerSet>other).structure)
-        # cinversion_list.inversion_list_destroy(new_set.structure)
-        # new_set.structure = new_structure
+        cdef cinversion_list.InversionList *new_structure = cinversion_list.inversion_list_intersection(new_set.structure, (<IntegerSet>other).structure, NULL)
+        cinversion_list.inversion_list_destroy(new_set.structure)
+        new_set.structure = new_structure
 
-        # return new_set
+        return new_set
 
     def intersection(self, *others: Iterator[int]) -> "IntegerSet":
-        pass
-        # new_set = IntegerSet.from_iterable(self)
+        new_set = IntegerSet.from_iterable(self)
 
-        # for other in others:
-        #     new_set = new_set & IntegerSet.from_iterable(other)
+        for other in others:
+            new_set = new_set & IntegerSet.from_iterable(other)
 
-        # return new_set
+        return new_set
 
     def __or__(self, other: "IntegerSet") -> "IntegerSet": pass
 
