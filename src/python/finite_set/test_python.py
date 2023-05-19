@@ -57,11 +57,35 @@ def test_less():
     assert (j < a) == False
     assert (k < a) == False
 
+def test_disjoint():
+    a = [1, 2, 3, 5, 7, 8, 9]
+    b = [1, 2, 3, 5, 7, 8, 9]
+    c = [10, 20, 4, 6, 11, 12, 13]
+    d = [6, 20, 4, 1, 11, 12, 13]
+
+    set_a = inversion_list.IntegerSet.from_iterable(a)
+    set_b = inversion_list.IntegerSet.from_iterable(b)
+    set_c = inversion_list.IntegerSet.from_iterable(c)
+    set_d = inversion_list.IntegerSet.from_iterable(d)
+
+    # assert(inversion_list_disjoint(seta,setb) == false);
+    # assert(inversion_list_disjoint(seta,setc) == true);
+    # assert(inversion_list_disjoint(seta,setd) == false);
+
+    assert set_a.isdisjoint(set_b) == False
+    assert set_a.isdisjoint(set_c) == True
+    assert set_a.isdisjoint(set_d) == False
+
+    assert(set_a.isdisjoint(a) == False)
+    assert(set_a.isdisjoint(c) == True)
+    assert(set_a.isdisjoint(d) == False)
+
 if __name__ == "__main__":
     inversion_list.init_library()
 
     #test1()
     #test2()
     test_less()
+    test_disjoint()
     
     inversion_list.finish_library()

@@ -202,7 +202,9 @@ cdef class IntegerSet:
         
         return False
 
-    def isdisjoint(self, other: Iterable[int]) -> bool: pass
+    def isdisjoint(self, other: Iterable[int]) -> bool:
+        new_set = IntegerSet.from_iterable(other)
+        return cinversion_list.inversion_list_disjoint(self.structure, (<IntegerSet>new_set).structure)
 
     def __and__(self, other: "IntegerSet") -> "IntegerSet": pass
 
